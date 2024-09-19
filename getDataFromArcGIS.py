@@ -38,5 +38,6 @@ if __name__ == "__main__":
     fetcher = getDataFromArcGIS(feature_layer_url)
     fetcher.fetch_data()
     print(fetcher.get_last_known_location([9]))
-    fetcher.save_data_to_json('ArcGISLiveData.json')
+    fetcher.save_data_to_json('OnlyLocation.json')
+    # fetcher.save_data_to_json('ArcGISLiveData.json')
 
