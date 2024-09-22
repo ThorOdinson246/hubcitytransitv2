@@ -1,5 +1,6 @@
 from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
+import requests
 
 class DeviceLocationFetcher:
     def __init__(self, feature_layer_url, username=None, password=None):
@@ -19,6 +20,39 @@ class DeviceLocationFetcher:
             return latitude, longitude
         else:
             return None
+        
+    
+GOOGLE_MAPS_API_KEY = "AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ"#MY GOOGLE MAPS API KEY
+
+def get_user_eta(user_lat, user_lng, dest_lat, dest_lng):
+    
+    url = f"https://maps.googleapis.com/maps/api/distancematrix/json?"
+
+    params =  {
+        'origins': f'{user_lat},{user_lng}',
+        'destinations': f'{dest_lat},{dest_lng}',
+        'key': GOOGLE_MAPS_API_KEY,
+        'mode': 'driving',  # Change to walking, bicycling, or transit if needed
+        'departure_time': 'now',  # 'now' for real-time traffic data
+        'traffic_model': 'bestguess',
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    if data['status'] == 'OK':
+        element = data['rows'][0]['elements'][0]
+        distance = element['distance']['text']
+        duration = element.get('duration_in_traffic', element['duration'])['text']  # Use traffic data if available
+        return distance, duration
+    else:
+        return None, None
+
+
+
+
+        
+    
 
 # Example usage
 if __name__ == "__main__":

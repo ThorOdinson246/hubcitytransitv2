@@ -1,4 +1,5 @@
 # Time is encoded in Unix epoch time format
+from pyproj import Transformer
 class getDataFromArcGIS:
     def __init__(self, feature_layer_url):
         from arcgis.gis import GIS
@@ -30,6 +31,18 @@ class getDataFromArcGIS:
             if feature.attributes.get("objectid") in object_id:
                 last_known_location.append(feature.attributes.get("course"))
         return last_known_location
+    
+
+# instance of getDataFromArcGIS
+# Convert the coordinates from EPSG:3857 to EPSG:4326
+    def convert_coordinates(self,paths):
+        transformer = Transformer.from_crs("EPSG:3857", "EPSG:4326")
+
+        paths = [
+            [transformer.transform(x, y)[0], transformer.transform(x, y)[1]] for x, y in paths
+        ]
+        return paths
+
    
 
 

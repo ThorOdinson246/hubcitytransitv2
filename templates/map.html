@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bus Tracker</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+      #map {
+        height: 100vh;
+      }
+      .button-container {
+        position: absolute;
+        top: 100px;
+        left: 10px;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .route-button {
+        display: block;
+        margin-bottom: 5px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+      }
+      .route-button:hover {
+        background-color: #f0f0f0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .eta-box {
+        position: absolute;
+        top: 20px;
+        left: 10px;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="button-container" id="button-container"></div>
+
+    <script>
+      var map = L.map("map").setView([31.3271, -89.2903], 13);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+      }).addTo(map);
+
+      function getIcon() {
+        return L.icon({
+          iconUrl:
+            "https://freeiconshop.com/wp-content/uploads/edd/location-arrow-flat.png",
+          iconSize: [25, 25],
+          popupAnchor: [-3, -76],
+        });
+      }
+
+      var busMarker = L.marker([31.3271, -89.2903], { icon: getIcon() }).addTo(
+        map
+      );
+
+      function updateBusLocation() {
+        fetch("/bus_location")
+          .then((response) => response.json())
+          .then((data) => {
+            var location = data.location;
+            if (location[0] && location[1]) {
+              busMarker.setLatLng([location[0], location[1]]);
+            }
+            // console.debug("updating bus location");
+          });
+      }
+
+      setInterval(updateBusLocation, 5000);
+
+      // Fetch routes from the server
+      fetch("/routes")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data); // Debugging: Log the data to the console
+
+          // Create polylines for each route
+          var blueRoute = L.polyline(data.blue_route, {
+            color: "#486dff",
+            weight: 5.0,
+          });
+          var goldRoute = L.polyline(data.gold_route, {
+            color: "#f8d700",
+            weight: 5.0,
+          });
+          var greenRoute = L.polyline(data.green_route, {
+            color: "#5fbf00",
+            weight: 5.0,
+          });
+          var brownRoute = L.polyline(data.brown_route, {
+            color: "#3b1e0a",
+            weight: 5.0,
+          });
+          var orangeRoute = L.polyline(data.orange_route, {
+            color: "#ff6f00",
+            weight: 5.0,
+          });
+          var redRoute = L.polyline(data.red_route, {
+            color: "#ff0000",
+            weight: 5.0,
+          });
+          var purpleRoute = L.polyline(data.purple_route, {
+            color: "#800080",
+            weight: 5.0,
+          });
+
+          // Create and add buttons to toggle routes
+          var buttonContainer = document.getElementById("button-container");
+
+          function createRouteButton(route, color, routeName) {
+            var button = document.createElement("button");
+            button.textContent = `Show ${routeName} Route`;
+            button.className = "route-button";
+            button.onclick = function () {
+              if (map.hasLayer(route)) {
+                map.removeLayer(route);
+                button.textContent = `Show ${routeName} Route`;
+              } else {
+                map.addLayer(route);
+                button.textContent = `Hide ${routeName} Route`;
+              }
+            };
+            buttonContainer.appendChild(button);
+          }
+
+          createRouteButton(blueRoute, "#3a72ff", "Blue");
+          createRouteButton(goldRoute, "#ffcc00", "Gold");
+          createRouteButton(greenRoute, "#53a600", "Green");
+          createRouteButton(brownRoute, "#a52a2a", "Brown");
+          createRouteButton(orangeRoute, "#ff8c00", "Orange");
+          createRouteButton(redRoute, "#ff0000", "Red");
+          createRouteButton(purpleRoute, "#800080", "Purple");
+        })
+        .catch((error) => console.error("Error fetching routes:", error));
+
+        // Fetch the ETA from the server
+        
+    </script>
+  </body>
+</html>
