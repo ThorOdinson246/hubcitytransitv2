@@ -8,7 +8,7 @@ class DeviceLocationFetcher:
         self.gis = GIS(username=username, password=password)
         self.feature_layer = FeatureLayer(feature_layer_url)
 
-    def get_device_location(self, device_id):
+    def get_bus_location(self, device_id):
         
         query_result = self.feature_layer.query(where=f"device_id='{device_id}'", out_fields="*")
         
@@ -43,7 +43,8 @@ def get_user_eta(user_lat, user_lng, dest_lat, dest_lng):
     if data['status'] == 'OK':
         element = data['rows'][0]['elements'][0]
         distance = element['distance']['text']
-        duration = element.get('duration_in_traffic', element['duration'])['text']  # Use traffic data if available
+        duration = element.get('duration_in_traffic', element['duration'])['text'] 
+        print("Successful in getting eta") # Use traffic data if available
         return distance, duration
     else:
         return None, None
@@ -60,7 +61,7 @@ if __name__ == "__main__":
     device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
     
     fetcher = DeviceLocationFetcher(feature_layer_url)
-    location = fetcher.get_device_location(device_id)
+    location = fetcher.get_bus_location(device_id)
     
     if location:
         latitude, longitude = location

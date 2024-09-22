@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
       #map {
         height: 100vh;
@@ -66,8 +67,19 @@
         });
       }
 
-      var busMarker = L.marker([31.3271, -89.2903], { icon: getIcon() }).addTo(
+      var busMarker = L.marker([31.3271, -89.2903], { icon: getIcon() ,}).bindTooltip("Bus").addTo(
         map
+      );
+
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          var userLat = position.coords.latitude;
+          var userLng = position.coords.longitude;
+          userLocationMarker = L.marker([userLat, userLng], { icon: getIcon() }).bindTooltip("Me").addTo(map);
+        },
+        function (error) {
+          console.error("Error getting user location: " + error.message);
+        }
       );
 
       function updateBusLocation() {
@@ -82,6 +94,8 @@
           });
       }
 
+
+
       setInterval(updateBusLocation, 5000);
 
       // Fetch routes from the server
@@ -92,51 +106,51 @@
 
           // Create polylines for each route
           var blueRoute = L.polyline(data.blue_route, {
-            color: "#486dff",
-            weight: 5.0,
+        color: "#486dff",
+        weight: 5.0,
           });
           var goldRoute = L.polyline(data.gold_route, {
-            color: "#f8d700",
-            weight: 5.0,
+        color: "#f8d700",
+        weight: 5.0,
           });
           var greenRoute = L.polyline(data.green_route, {
-            color: "#5fbf00",
-            weight: 5.0,
+        color: "#5fbf00",
+        weight: 5.0,
           });
           var brownRoute = L.polyline(data.brown_route, {
-            color: "#3b1e0a",
-            weight: 5.0,
+        color: "#3b1e0a",
+        weight: 5.0,
           });
           var orangeRoute = L.polyline(data.orange_route, {
-            color: "#ff6f00",
-            weight: 5.0,
+        color: "#ff6f00",
+        weight: 5.0,
           });
           var redRoute = L.polyline(data.red_route, {
-            color: "#ff0000",
-            weight: 5.0,
+        color: "#ff0000",
+        weight: 5.0,
           });
           var purpleRoute = L.polyline(data.purple_route, {
-            color: "#800080",
-            weight: 5.0,
+        color: "#800080",
+        weight: 5.0,
           });
 
           // Create and add buttons to toggle routes
           var buttonContainer = document.getElementById("button-container");
 
           function createRouteButton(route, color, routeName) {
-            var button = document.createElement("button");
+        var button = document.createElement("button");
+        button.textContent = `Show ${routeName} Route`;
+        button.className = "route-button";
+        button.onclick = function () {
+          if (map.hasLayer(route)) {
+            map.removeLayer(route);
             button.textContent = `Show ${routeName} Route`;
-            button.className = "route-button";
-            button.onclick = function () {
-              if (map.hasLayer(route)) {
-                map.removeLayer(route);
-                button.textContent = `Show ${routeName} Route`;
-              } else {
-                map.addLayer(route);
-                button.textContent = `Hide ${routeName} Route`;
-              }
-            };
-            buttonContainer.appendChild(button);
+          } else {
+            map.addLayer(route);
+            button.textContent = `Hide ${routeName} Route`;
+          }
+        };
+        buttonContainer.appendChild(button);
           }
 
           createRouteButton(blueRoute, "#3a72ff", "Blue");
@@ -149,47 +163,61 @@
         })
         .catch((error) => console.error("Error fetching routes:", error));
 
-        // Fetch the ETA from the server
-        function getUserLocation() {
+      function getUserLocationAndSendToBackend() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
-            function (position) {
-              var userLat = position.coords.latitude;
-              var userLng = position.coords.longitude;
-              calculateETA(userLat, userLng);
+        function (position) {
+          var userLat = position.coords.latitude;
+          var userLng = position.coords.longitude;
+          // Print the data
+          console.log("User location:", userLat, userLng);
+          // Send the data to the Flask backend
+          $.ajax({
+            url: "/user_location",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ latitude: userLat, longitude: userLng }),
+            success: function (response) {
+          console.log("Location sent successfully to backend:", response);
             },
-            function (error) {
-              console.error("Error getting user location: " + error.message);
+            error: function (xhr) {
+          console.error("Error sending location:", xhr);
             }
+          });
+        },
+        function (error) {
+          console.error("Error getting user location: " + error.message);
+        }
           );
         } else {
           console.error("Geolocation is not supported by this browser.");
         }
       }
 
-      // Function to calculate and display ETA
-      function calculateETA(userLat, userLng) {
-        $.ajax({
-          url: "/get_eta",
-          method: "POST",
-          contentType: "application/json",
-          data: JSON.stringify({ user_lat: userLat, user_lng: userLng }),
-          success: function (response) {
-            var etaBox = document.getElementById("eta-box");
-            if (response.eta) {
-              etaBox.innerHTML = `Distance: ${response.distance}, ETA: ${response.eta}`;
-            } else {
-              etaBox.innerHTML = "ETA unavailable";
-            }
-          },
-          error: function (xhr) {
-            console.error("Error calculating ETA:", xhr);
-          },
-        });
-      }
+      // Call the function to start the process
+      getUserLocationAndSendToBackend();
+    //   function calculateETA(userLat, userLng) {
+    //     $.ajax({
+    //       url: "/get_eta",
+    //       method: "POST",
+    //       contentType: "application/json",
+    //       data: JSON.stringify({ user_lat: userLat, user_lng: userLng }),
+    //       success: function (response) {
+    //         var etaBox = document.getElementById("eta-box");
+    //         if (response.eta) {
+    //           etaBox.innerHTML = `Distance: ${response.distance}, ETA: ${response.eta}`;
+    //         } else {
+    //           etaBox.innerHTML = "ETA unavailable";
+    //         }
+    //       },
+    //       error: function (xhr) {
+    //         console.error("Error calculating ETA:", xhr);
+    //       },
+    //     });
+    //   }
 
       // Call getUserLocation() to start the process
-      getUserLocation();
+      // getUserLocation();
     </script>
   </body>
 </html>

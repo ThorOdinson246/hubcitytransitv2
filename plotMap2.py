@@ -20,7 +20,7 @@ def convert_coordinates(paths):
 # get the current location of the device
 feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
 fetcher = DeviceLocationFetcher(feature_layer_url)
-location = fetcher.get_device_location(device_id["gold1"])
+location = fetcher.get_bus_location(device_id["gold1"])
 print(location)
 # UNCOMMENT C@ HERE
 
