@@ -150,7 +150,46 @@
         .catch((error) => console.error("Error fetching routes:", error));
 
         // Fetch the ETA from the server
-        
+        function getUserLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              var userLat = position.coords.latitude;
+              var userLng = position.coords.longitude;
+              calculateETA(userLat, userLng);
+            },
+            function (error) {
+              console.error("Error getting user location: " + error.message);
+            }
+          );
+        } else {
+          console.error("Geolocation is not supported by this browser.");
+        }
+      }
+
+      // Function to calculate and display ETA
+      function calculateETA(userLat, userLng) {
+        $.ajax({
+          url: "/get_eta",
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ user_lat: userLat, user_lng: userLng }),
+          success: function (response) {
+            var etaBox = document.getElementById("eta-box");
+            if (response.eta) {
+              etaBox.innerHTML = `Distance: ${response.distance}, ETA: ${response.eta}`;
+            } else {
+              etaBox.innerHTML = "ETA unavailable";
+            }
+          },
+          error: function (xhr) {
+            console.error("Error calculating ETA:", xhr);
+          },
+        });
+      }
+
+      // Call getUserLocation() to start the process
+      getUserLocation();
     </script>
   </body>
 </html>
