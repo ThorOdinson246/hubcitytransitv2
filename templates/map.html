@@ -35,21 +35,25 @@
         background-color: #f0f0f0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
-      .eta-box {
-        position: absolute;
-        top: 20px;
-        left: 10px;
-        z-index: 1000;
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 10px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
+      #eta-box {
+            position: absolute;
+            top: 500px;
+            left: 10px;
+            background-color: rgb(233, 232, 232);
+            padding: 10px;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+        #eta-box:hover {
+            background-color: rgb(233, 232, 232);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
     </style>
   </head>
   <body>
     <div id="map"></div>
     <div class="button-container" id="button-container"></div>
+    <div id="eta-box"></div>
 
     <script>
       var map = L.map("map").setView([31.3271, -89.2903], 13);
@@ -91,6 +95,19 @@
               busMarker.setLatLng([location[0], location[1]]);
             }
             // console.debug("updating bus location");
+          });
+      }
+
+      function updateETA() {
+        fetch("/get_eta")
+          .then((response) => response.json())
+          .then((data) => {
+            var etaBox = document.getElementById("eta-box");
+            if (data.eta) {
+              etaBox.innerHTML = `Distance: ${data.distance}, ETA: ${data.eta}`;
+            } else {
+              etaBox.innerHTML = "ETA unavailable";
+            }
           });
       }
 
@@ -163,6 +180,25 @@
         })
         .catch((error) => console.error("Error fetching routes:", error));
 
+        function updateETA() {
+                fetch("/get_eta")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        var etaBox = document.getElementById("eta-box");
+                        etaBox.onclick = function () {
+                            updateETA();
+                        };
+                        if (data.eta) {
+                            etaBox.innerHTML = `Distance: ${data.distance}, ETA: ${data.eta} `;
+                        } else {
+                            etaBox.innerHTML = "ETA unavailable";
+                        }
+                    })
+                    .catch(error => console.error("Error fetching ETA:", error));
+            }
+
+            // Example usage of updateETA function
+
       function getUserLocationAndSendToBackend() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -176,7 +212,7 @@
             url: "/user_location",
             method: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ latitude: userLat, longitude: userLng }),
+            data: JSON.stringify({ user_lat: userLat, user_lng: userLng }),
             success: function (response) {
           console.log("Location sent successfully to backend:", response);
             },
@@ -196,6 +232,8 @@
 
       // Call the function to start the process
       getUserLocationAndSendToBackend();
+      updateETA();
+
     //   function calculateETA(userLat, userLng) {
     //     $.ajax({
     //       url: "/get_eta",
