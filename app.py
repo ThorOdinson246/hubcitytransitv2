@@ -17,7 +17,7 @@ fetcher = DeviceLocationFetcher(feature_layer_url)
 def fetch_bus_location():
     global current_location
     # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
-    location = fetcher.get_bus_location(device_id["blue1"])
+    location = fetcher.get_bus_location(device_id["green"])
     if location:
         current_location = location
 
