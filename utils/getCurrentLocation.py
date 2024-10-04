@@ -1,7 +1,7 @@
 from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
 import requests
-from deviceIDs import device_id
+from utils.deviceIDs import device_id
 
 class DeviceLocationFetcher:
     def __init__(self, feature_layer_url, username=None, password=None):
@@ -89,6 +89,146 @@ def get_user_eta(user_lat, user_lng, bus_lat, bus_lng):
         print(f"Directions request failed: {e}")
         return None, None
 
+
+# Example usage
+if __name__ == "__main__":
+
+    feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
+    fetcher = DeviceLocationFetcher(feature_layer_url)
+    
+    user_lat = 31.325075, 
+    user_lng = -89.339472
+    bus_lat = fetcher.get_bus_location(device_id["blue1"])[0]
+    bus_lng = fetcher.get_bus_location(device_id["blue1"])[1]
+
+    distance, duration = get_user_eta(user_lat, user_lng, bus_lat, bus_lng)
+    if distance and duration:
+        print(f"Distance: {distance}, ETA: {duration}")
+    else:
+        print("Failed to get ETA")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ################################################################################        
 # OLD IMPLEMENTATOIN WITHOUT ROUTE DETAILS IN MIND, JUST REGUKLAR DRIVING ETA
 # GOOGLE_MAPS_API_KEY = "AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ"#MY GOOGLE MAPS API KEY
@@ -123,20 +263,3 @@ def get_user_eta(user_lat, user_lng, bus_lat, bus_lng):
 
         
     
-
-# Example usage
-if __name__ == "__main__":
-
-    feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
-    fetcher = DeviceLocationFetcher(feature_layer_url)
-    
-    user_lat = 31.325075, 
-    user_lng = -89.339472
-    bus_lat = fetcher.get_bus_location(device_id["blue1"])[0]
-    bus_lng = fetcher.get_bus_location(device_id["blue1"])[1]
-
-    distance, duration = get_user_eta(user_lat, user_lng, bus_lat, bus_lng)
-    if distance and duration:
-        print(f"Distance: {distance}, ETA: {duration}")
-    else:
-        print("Failed to get ETA")

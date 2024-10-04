@@ -1,10 +1,11 @@
 from flask import Flask, render_template, jsonify, request
 from apscheduler.schedulers.background import BackgroundScheduler
-from getCurrentLocation import DeviceLocationFetcher, get_user_eta
-from routesForFlask import Routes
-from deviceIDs import device_id
-from getDataFromArcGIS import getDataFromArcGIS
+from utils.getCurrentLocation import DeviceLocationFetcher, get_user_eta
+from utils.routesForFlask import Routes
+from utils.deviceIDs import device_id
+from utils.getDataFromArcGIS import getDataFromArcGIS
 import requests
+from routesAndStops.extracted_stops import blue_route_converted_stops
 
 app = Flask(__name__)
 
@@ -17,9 +18,10 @@ fetcher = DeviceLocationFetcher(feature_layer_url)
 def fetch_bus_location():
     global current_location
     # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
-    location = fetcher.get_bus_location(device_id["green"])
+    location = fetcher.get_bus_location(device_id["blue1"])
     if location:
         current_location = location
+        print("Bus location debug:", current_location)
 
 @app.route('/')
 def index():
@@ -45,6 +47,13 @@ def get_routes():
         "purple_route": Routes.convert_coordinates(Routes.get_purple_route()),
     }
     return jsonify(routes)
+
+@app.route('/bus_stops')
+def get_bus_stops():
+    blue_route_stops_data = blue_route_converted_stops
+    return jsonify(blue_route_converted_stops)
+    
+
 
 # COMMENT C# STARTS HERE 
 # # 
@@ -109,7 +118,6 @@ def get_eta():
 # Background scheduler to fetch bus location every 5 seconds
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=fetch_bus_location, trigger="interval", seconds=5)
-
 scheduler.start()
 
 # Initialize route data when the app starts

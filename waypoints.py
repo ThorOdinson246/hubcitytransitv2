@@ -11,66 +11,62 @@ import requests
 # Your Google Maps API key
 API_KEY = 'AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ'
 
+import googlemaps
+from datetime import datetime
+import numpy as np
 
-def get_bus_route_waypoints():
-    # Google Maps Directions API URL
-    url = "https://maps.googleapis.com/maps/api/directions/json"
+# Initialize the Google Maps client
+gmaps = googlemaps.Client(key='YOUR_API_KEY')
 
-    # Parameters for the API request
-    params = {
-        # Starting point of the bus route
-        'origin': '31.324905, -89.331087' , # Starting point of the bus route
-        'destination': '31.324413, -89.374324',  # Ending point of the bus route  # Ending point of the bus route
-        'mode': 'transit',  # Mode of travel: transit (bus)
-        'key': 'AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ',
-
-        # 'transit_mode': 'bus',  # Transit mode: bus
-    }
-
-    # Make the API request to Google Directions API
-    response = requests.get(url, params=params)
-    data = response.json()
-
-    if data['status'] == 'OK':
-        waypoints = []
-        steps = data['routes'][0]['legs'][0]['steps']
-
-        # Extract waypoints (bus stops) from the steps
-        for step in steps:
-            if 'transit_details' in step:
-                # Transit details include bus stop locations
-                waypoints.append({
-                    'stop_name': step['transit_details']['departure_stop']['name'],
-                    'location': {
-                        'lat': step['transit_details']['departure_stop']['location']['lat'],
-                        'lng': step['transit_details']['departure_stop']['location']['lng']
-                    }
-                })
-                waypoints.append({
-                    'stop_name': step['transit_details']['arrival_stop']['name'],
-                    'location': {
-                        'lat': step['transit_details']['arrival_stop']['location']['lat'],
-                        'lng': step['transit_details']['arrival_stop']['location']['lng']
-                    }
-                })
-                print("waypoint added")
-
-        return waypoints
+def calculate_bus_eta(user_location, bus_location, bus_stops):
+    # Find the nearest stop to the bus
+    nearest_stop = find_nearest_stop(bus_location, bus_stops)
+    
+    # Calculate the route from the bus to the nearest stop
+    bus_to_stop_route = gmaps.directions(
+        bus_location,
+        nearest_stop,
+        waypoints=bus_stops[bus_stops.index(nearest_stop):],
+        optimize_waypoints=False,
+        mode="driving",
+        departure_time=datetime.now()
+    )
+    
+    # Extract the ETA
+    if bus_to_stop_route:
+        eta_seconds = bus_to_stop_route[0]['legs'][-1]['duration']['value']
+        eta_minutes = eta_seconds // 60
+        return nearest_stop, eta_minutes
     else:
-        print(f"Error fetching directions: {data['status']}")
-        return None
+        return None, None
 
+def find_nearest_stop(location, stops):
+    # Convert stops to numpy array for efficient calculation
+    stops_array = np.array(stops)
+    location_array = np.array(location)
+    
+    # Calculate distances
+    distances = np.sum((stops_array - location_array) ** 2, axis=1)
+    
+    # Find index of minimum distance
+    nearest_index = np.argmin(distances)
+    
+    return tuple(stops_array[nearest_index])
 
 # Example usage
-origin = "Starting Bus Stop Address"
-destination = "Ending Bus Stop Address"
-waypoints = get_bus_route_waypoints()
+user_location = (37.7749, -122.4194)  # San Francisco
+bus_location = (37.7833, -122.4167)  # Example bus location
+bus_stops = [
+    (37.7855, -122.4001),  # Stop 1
+    (37.7897, -122.3887),  # Stop 2
+    (37.7946, -122.3943),  # Stop 3
+    # Add more stops as needed
+]
 
-# Print out the waypoints (bus stops along the route)
-if waypoints:
-    for waypoint in waypoints:
-        print(
-            f"Bus Stop: {waypoint['stop_name']}, Location: {waypoint['location']}")
-        
+nearest_stop, eta = calculate_bus_eta(user_location, bus_location, bus_stops)
+
+if nearest_stop and eta:
+    print(f"The nearest stop to the bus is at {nearest_stop}")
+    print(f"The estimated time of arrival is {eta} minutes")
 else:
-    print("No waypoints found")
+    print("Unable to calculate ETA")

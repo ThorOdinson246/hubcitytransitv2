@@ -1,10 +1,10 @@
 import folium
 from folium.plugins import Realtime
 from pyproj import Transformer
-from getDataFromArcGIS import getDataFromArcGIS
-from getCurrentLocation import DeviceLocationFetcher
-from deviceIDs import device_id
-from routes import paths_blueroute, paths_goldrouteusm, paths_greenroute
+from utils.getDataFromArcGIS import getDataFromArcGIS
+from utils.getCurrentLocation import DeviceLocationFetcher
+from utils.deviceIDs import device_id
+from misc.routes import paths_blueroute, paths_goldrouteusm, paths_greenroute
 # Initialize the transformer to convert from EPSG:3857 to EPSG:4326
 transformer = Transformer.from_crs("EPSG:3857", "EPSG:4326")
 
