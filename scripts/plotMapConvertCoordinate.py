@@ -16,6 +16,8 @@ def convert_coordinates(paths):
     ]
     return converted_paths
 
+# def convert_coordinates(coordinate):
+
 # COMMENT C@ HERE
 # get the current location of the device
 feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"

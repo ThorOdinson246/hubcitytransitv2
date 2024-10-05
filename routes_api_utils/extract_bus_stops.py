@@ -1,4 +1,5 @@
 import folium
+from pyproj import Transformer
 paths_blue_route = [
     [31.327646099437494, -89.2856930699543],
     [31.326958747564568, -89.28494205143014],
@@ -155,11 +156,15 @@ def extract_bus_stops(input_file, output_file):
 #     "Direction": "Outbound"
 #   }
 # }
+transformer = Transformer.from_crs("EPSG:3857", "EPSG:4326")
+
+def convert_coordinates(x,y):
+    return transformer.transform(x,y)
 
 input_file = 'blue_route_stops.json'
 output_file = 'extracted_stops.json'
 def extract_stops_and_names():
-    input_file = 'blue_route_stops.json'
+    input_file = 'routes_api_utils/blue_route_stops.json'
     output_file = 'extracted_stops.json'
     
     try:
@@ -170,10 +175,13 @@ def extract_stops_and_names():
         for item in data:
             geometry = item.get('geometry', {})
             attributes = item.get('attributes', {})
+            if 'x' in geometry and 'y' in geometry:
+                x, y = convert_coordinates(geometry['x'], geometry['y'])
             stop_info = {
-                'x': geometry.get('x', 'Unknown'),
-                'y': geometry.get('y', 'Unknown'),
-                'location': attributes.get('Location', 'Unknown')
+                'x': x,#with converted coordinates. 
+                'y': y,
+                'location': attributes.get('Location', 'Unknown'),
+                'direction': attributes.get('Direction', 'Unknown')
             }
             stops_and_names.append(stop_info)
         
