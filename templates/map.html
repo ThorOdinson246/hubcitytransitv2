@@ -126,7 +126,7 @@
           .then((data) => {
             busStopsLayer.clearLayers(); // Clear existing bus stops
             data.forEach((busStop) => {
-              var marker = L.marker([busStop.x, busStop.y]).bindPopup(busStop.location);
+              var marker = L.marker([busStop.x, busStop.y]).bindPopup(busStop.location+" "+busStop.direction);
               busStopsLayer.addLayer(marker);
             });
           })
