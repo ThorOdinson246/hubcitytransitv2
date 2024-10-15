@@ -144,70 +144,90 @@ def get_current_stop_index(bus_location, waypoints):
 def get_reverse_route_waypoints(waypoints, current_stop_index):
     return waypoints[:current_stop_index][::-1]
 
+
+# Main logic to calculate BUS ETA 
+
+def calculate_bus_eta(user_location, bus_location, stops):
+    """Main logic function that calculates ETA for forward or reverse route."""
+    waypoints = [(stop["x"], stop["y"]) for stop in stops]
+    coord_to_stop_id = {(stop["x"], stop["y"]): stop["stop_id"] for stop in stops}
+
+    nearest_stop_to_user = get_nearest_stop(user_location[0], user_location[1])
+    nearest_stop_to_bus = get_nearest_stop(bus_location[0], bus_location[1])
+
+    user_stop_index = waypoints.index([(stop["x"], stop["y"]) for stop in stops if stop["stop_id"] == nearest_stop_to_user][0])
+    nearest_stop_to_bus_index = waypoints.index([(stop["x"], stop["y"]) for stop in stops if stop["stop_id"] == nearest_stop_to_bus][0])
+
+    if nearest_stop_to_bus_index > user_stop_index:
+        reverse_waypoints = waypoints[nearest_stop_to_bus_index:] + waypoints[:user_stop_index + 1]
+        reverse_eta = calculate_eta_with_waypoint_limit(bus_location, reverse_waypoints[0], reverse_waypoints)
+        print(f"Reverse Stop IDs: {[coord_to_stop_id[coord] for coord in reverse_waypoints]}")
+        print(f"Reverse ETA: {reverse_eta}")
+        return reverse_eta
+    else:
+        forward_waypoints = waypoints[nearest_stop_to_bus_index:user_stop_index + 1]
+        forward_eta = calculate_eta_with_waypoint_limit(bus_location, forward_waypoints[-1], forward_waypoints)
+        print(f"Forward Stop IDs: {[coord_to_stop_id[coord] for coord in forward_waypoints]}")
+        print(f"Forward ETA: {forward_eta}")
+        return forward_eta
+
 if __name__ == "__main__":
      # Example user location (latitude, longitude)
     user_location = (31.325966, -89.338747)
-    print(f"User location: {user_location}")   
     bus_location = (31.324681, -89.295340)
-
-    waypoints=[(stop["x"], stop["y"]) for stop in blue_route_converted_stops]
-
-    nearest_stop_to_user = get_nearest_stop(user_location[0], user_location[1])
-    print(f"Nearest stop to user index: {nearest_stop_to_user}")   
-    nearest_stop_to_bus = get_nearest_stop(bus_location[0], bus_location[1])
-    print(f"Nearest stop to bus: {nearest_stop_to_bus}")   
-
-    # Find indices of nearest stops
-    user_stop_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_user][0])
-    nearest_stop_to_bus_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_bus][0])
+    eta = calculate_bus_eta(user_location, bus_location, blue_route_converted_stops)
+    print(f"Final ETA: {eta} minutes")
 
 
-# Stop id printing for better understanding 
-    coord_to_stop_id = {(stop["x"], stop["y"]): stop["stop_id"] for stop in blue_route_converted_stops}
+    # user_location = (31.325966, -89.338747)
+    # print(f"User location: {user_location}")   
+    # bus_location = (31.324681, -89.295340)
+
+    # waypoints=[(stop["x"], stop["y"]) for stop in blue_route_converted_stops]
+
+    # nearest_stop_to_user = get_nearest_stop(user_location[0], user_location[1])
+    # print(f"Nearest stop to user index: {nearest_stop_to_user}")   
+    # nearest_stop_to_bus = get_nearest_stop(bus_location[0], bus_location[1])
+    # print(f"Nearest stop to bus: {nearest_stop_to_bus}")   
+
+    # # Find indices of nearest stops
+    # user_stop_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_user][0])
+    # nearest_stop_to_bus_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_bus][0])
 
 
-    # Determine the direction of travel
-    if nearest_stop_to_bus_index > user_stop_index:
-        # Bus has already passed the user
-        print("Bus le pass garisakyo, so reverse ma janxa ra bus thim nai pugxa")
-        direction = "reverse"
-        # Yesko baaki sabai waypoint chai forward hune vayo
-        reverse_waypoints = waypoints[nearest_stop_to_bus_index:] + waypoints[:user_stop_index + 1]
-        # Stop id printing for better understanding 
-        reverse_stop_ids = [coord_to_stop_id[coord] for coord in reverse_waypoints]
-        print(f"Reverse stop IDs: {reverse_stop_ids}")   
-        # reverse_waypoints = waypoints[:user_stop_index][::-1] + forward_waypoints
-        # reverse_stop_ids = [coord_to_stop_id[coord] for coord in reverse_waypoints]
-        # print(f"Reverse stop IDs: {reverse_stop_ids}")   
+    # # Stop id printing for better understanding 
+    # coord_to_stop_id = {(stop["x"], stop["y"]): stop["stop_id"] for stop in blue_route_converted_stops}
 
-        # print(f"Reverse waypoints for reverse direction: {reverse_waypoints}") 
-        print(f"Forward waypoints for reverse direction: {reverse_waypoints}")
-    else:
-        # Bus is yet to come
-        print("Bus ajhai aaunai baki xa, so forward ma janxa ")
-        direction = "forward"
-        forward_waypoints = waypoints[nearest_stop_to_bus_index:user_stop_index + 1]
+
+    # # Determine the direction of travel
+    # if nearest_stop_to_bus_index > user_stop_index:
+    #     # Bus has already passed the user
+    #     print("Bus le pass garisakyo, so reverse ma janxa ra bus thim nai pugxa")
+    #     direction = "reverse"
+    #     # Yesko baaki sabai waypoint chai forward hune vayo
+    #     reverse_waypoints = waypoints[nearest_stop_to_bus_index:] + waypoints[:user_stop_index + 1]
+    #     # Stop id printing for better understanding 
+    #     reverse_stop_ids = [coord_to_stop_id[coord] for coord in reverse_waypoints]
+    #     print(f"Reverse stop IDs: {reverse_stop_ids}")   
+
+    #     print(f"Forward waypoints for reverse direction: {reverse_waypoints}")
+    # else:
+    #     # Bus is yet to come
+    #     print("Bus ajhai aaunai baki xa, so forward ma janxa ")
+    #     direction = "forward"
+    #     forward_waypoints = waypoints[nearest_stop_to_bus_index:user_stop_index + 1]
                 
-        forward_stop_ids = [coord_to_stop_id[coord] for coord in forward_waypoints]
-        print(f"Forward stop IDs: {forward_stop_ids}")   
+    #     forward_stop_ids = [coord_to_stop_id[coord] for coord in forward_waypoints]
+    #     print(f"Forward stop IDs: {forward_stop_ids}")   
 
-
-        # reverse_waypoints = waypoints[nearest_stop_to_bus_index:][::-1]
-        
-
-        # reverse_stop_ids = [coord_to_stop_id[coord] for coord in reverse_waypoints]
-        # print(f"Reverse stop IDs: {reverse_stop_ids}")   
-
-        
-        print(f"Forward waypoints: {forward_waypoints}")
-        # print(f"Reverse waypoints: {reverse_waypoints}")
-    print("Direction is actually ", direction)
-    if direction == "forward":
-        forward_eta = calculate_eta_with_waypoint_limit(bus_location, forward_waypoints[-1], forward_waypoints)
-        print( "Forward ETA:", forward_eta)
-    else:
-        reverse_eta = calculate_eta_with_waypoint_limit(bus_location, reverse_waypoints[0], reverse_waypoints)
-        print( "Reverse ETA:", reverse_eta)
+    #     print(f"Forward waypoints: {forward_waypoints}")
+    # print("Direction is actually ", direction)
+    # if direction == "forward":
+    #     forward_eta = calculate_eta_with_waypoint_limit(bus_location, forward_waypoints[-1], forward_waypoints)
+    #     print( "Forward ETA:", forward_eta)
+    # else:
+    #     reverse_eta = calculate_eta_with_waypoint_limit(bus_location, reverse_waypoints[0], reverse_waypoints)
+    #     print( "Reverse ETA:", reverse_eta)
 
     
 
@@ -215,46 +235,3 @@ if __name__ == "__main__":
 
 
 
-
-
-# # WORKING LOGIC BU ERROR IN INDEXXXX .
-#     # Get nearest stop to user location
-#     nearest_stop_to_user = get_nearest_stop(user_location[0], user_location[1])
-#     print(f"Nearest stop to user: {nearest_stop_to_user}")   
-
-#     # Get bus location
-#     # bus_location = get_bus_location_by_id("blue1")
-#     bus_location = (31.324849, -89.334886)
-#     print(f"Bus location: {bus_location}")   
-
-#     nearest_stop_to_bus = get_nearest_stop(bus_location[0], bus_location[1])
-#     print(f"Nearest stop to bus: {nearest_stop_to_bus}")   
-
-#     waypoints = [(stop["x"], stop["y"]) for stop in blue_route_converted_stops]
-
-#     # Find the index of the nearest stop to the bus
-#     nearest_stop_to_bus_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_bus][0])
-#     print(f"Nearest stop to bus index: {nearest_stop_to_bus_index}")   
-
-#     # Identify relevant waypoints for forward ETA
-#     user_stop_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_user][0])
-#     forward_waypoints = waypoints[user_stop_index:nearest_stop_to_bus_index + 1]  # Include both start and end stops
-#     print(f"Forward waypoints: {forward_waypoints}")   
-
-#     # Calculate forward ETA
-#     forward_eta = calculate_eta_with_waypoint_limit(bus_location, forward_waypoints[-1], forward_waypoints)
-#     print(f"Forward ETA: {forward_eta}")   
-
-#     # Identify relevant waypoints for reverse ETA
-#     reverse_waypoints = waypoints[:user_stop_index][::-1] + waypoints[nearest_stop_to_bus_index:]  # Include the entire reverse route
-#     print(f"Reverse waypoints: {reverse_waypoints}")   
-
-#     # Calculate reverse ETA
-#     reverse_eta = calculate_eta_with_waypoint_limit(bus_location, reverse_waypoints[0], reverse_waypoints)
-#     print(f"Reverse ETA: {reverse_eta}")   
-
-#     # Determine the shortest route and ETA
-#     if forward_eta < reverse_eta:
-#         print("Shortest route is forward with ETA:", forward_eta)
-#     else:
-#         print("Shortest route is reverse with ETA:", reverse_eta)# Commented cuz better do this in frontend 
