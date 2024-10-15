@@ -1,12 +1,10 @@
 from flask import Flask, render_template, jsonify, request
 from apscheduler.schedulers.background import BackgroundScheduler
-from etaWithWaypointsClaude import calculate_bus_eta
 from utils.getCurrentLocation import DeviceLocationFetcher, get_user_eta
+from utils.getFwdAndRevEta import calculate_bus_eta
 from utils.routesForFlask import Routes
 from utils.deviceIDs import device_id
-from utils.getDataFromArcGIS import getDataFromArcGIS
-import requests
-from routesAndStops.extracted_stops import blue_route_converted_stops
+from utils.extracted_stops import blue_route_converted_stops
 
 app = Flask(__name__)
 
@@ -21,7 +19,7 @@ fetcher = DeviceLocationFetcher(feature_layer_url)
 def fetch_bus_location():
     global current_location
     # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
-    location = fetcher.get_bus_location(device_id["blue1"])
+    location = fetcher.get_bus_location(device_id["red"])
     if location:
         current_location = location
         # print("Bus location debug:", current_location)
@@ -110,15 +108,13 @@ def get_eta():
     if user_lat is None or user_lng is None:
         return jsonify({"status": "error", "message": "User location not set"}), 400
     else:
-        print(f"Data is received , now computing the ETA between user : {user_lat},{user_lng} and destination: {dest_lat},{dest_lng}")
+        print(f"Data is received, now computing the ETA between user: {user_lat},{user_lng} and destination: {dest_lat},{dest_lng}")
 
-    distance,duration=get_user_eta(user_lat, user_lng, dest_lat, dest_lng)#get_user_eta was old implementation, change if broken
-    stop,next_eta,following_eta = calculate_bus_eta(user_location_data, current_location, blue_route_converted_stops)
+    # Calculate the ETA using the provided function
+    eta = calculate_bus_eta((user_lat, user_lng), (dest_lat, dest_lng), blue_route_converted_stops)
+
     return jsonify({
-        # 'distance': distance,
-        # 'eta': duration\
-        'next_eta': next_eta,
-        'following_eta': following_eta
+        'eta': eta
     })
 
 

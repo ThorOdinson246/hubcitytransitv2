@@ -5,8 +5,8 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import requests
-from extracted_stops import blue_route_converted_stops
-from getCurrentLocation import DeviceLocationFetcher
+from utils.extracted_stops import blue_route_converted_stops
+from utils.getCurrentLocation import DeviceLocationFetcher
 from utils.deviceIDs import device_id
 
 API_KEY = "AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ"
@@ -146,7 +146,6 @@ def get_reverse_route_waypoints(waypoints, current_stop_index):
 
 
 # Main logic to calculate BUS ETA 
-
 def calculate_bus_eta(user_location, bus_location, stops):
     """Main logic function that calculates ETA for forward or reverse route."""
     waypoints = [(stop["x"], stop["y"]) for stop in stops]
@@ -174,7 +173,7 @@ def calculate_bus_eta(user_location, bus_location, stops):
 if __name__ == "__main__":
      # Example user location (latitude, longitude)
     user_location = (31.325966, -89.338747)
-    bus_location = (31.324681, -89.295340)
+    bus_location = (31.328148, -89.293578)
     eta = calculate_bus_eta(user_location, bus_location, blue_route_converted_stops)
     print(f"Final ETA: {eta} minutes")
 
