@@ -10,7 +10,7 @@ import googlemaps
 from datetime import datetime
 import numpy as np
 from itertools import islice
-from app import current_location, blue_route_converted_stops
+# from app import current_location, blue_route_converted_stops
 
 
 gmaps = googlemaps.Client(key=API_KEY)
@@ -240,17 +240,17 @@ def calculate_bus_eta(user_location_data, current_location, blue_route_converted
 # Example usage
 user_location_data = {'lat':31.324751, 'lng': -89.310127 }#Near hattiesburg zoo should be around 7 mins. outbound.
 
-nearest_stop, next_arrival, following_arrival = calculate_bus_eta(
-    user_location_data, current_location, blue_route_converted_stops
-)
+# nearest_stop, next_arrival, following_arrival = calculate_bus_eta(
+#     user_location_data, current_location, blue_route_converted_stops
+# )
 
-# Output the result
-if nearest_stop and next_arrival and following_arrival:
-    print({
-        "nearest_stop to bus ": nearest_stop,
-        "next_arrival": next_arrival,
-        "following_arrival": following_arrival
-    })
-else:
-    print({"error": "Unable to calculate ETA"})
+# # Output the result
+# if nearest_stop and next_arrival and following_arrival:
+#     print({
+#         "nearest_stop to bus ": nearest_stop,
+#         "next_arrival": next_arrival,
+#         "following_arrival": following_arrival
+#     })
+# else:
+#     print({"error": "Unable to calculate ETA"})
 

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from apscheduler.schedulers.background import BackgroundScheduler
+from etaWithWaypointsClaude import calculate_bus_eta
 from utils.getCurrentLocation import DeviceLocationFetcher, get_user_eta
 from utils.routesForFlask import Routes
 from utils.deviceIDs import device_id
@@ -23,7 +24,9 @@ def fetch_bus_location():
     location = fetcher.get_bus_location(device_id["blue1"])
     if location:
         current_location = location
-        print("Bus location debug:", current_location)
+        # print("Bus location debug:", current_location)
+        return current_location
+
 
 @app.route('/')
 def index():
@@ -109,11 +112,13 @@ def get_eta():
     else:
         print(f"Data is received , now computing the ETA between user : {user_lat},{user_lng} and destination: {dest_lat},{dest_lng}")
 
-    distance,duration=get_user_eta(user_lat, user_lng, dest_lat, dest_lng)
-
+    distance,duration=get_user_eta(user_lat, user_lng, dest_lat, dest_lng)#get_user_eta was old implementation, change if broken
+    stop,next_eta,following_eta = calculate_bus_eta(user_location_data, current_location, blue_route_converted_stops)
     return jsonify({
-        'distance': distance,
-        'eta': duration
+        # 'distance': distance,
+        # 'eta': duration\
+        'next_eta': next_eta,
+        'following_eta': following_eta
     })
 
 
