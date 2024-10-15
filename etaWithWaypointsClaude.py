@@ -13,6 +13,7 @@
 # # from app import current_location, blue_route_converted_stops
 
 
+
 # gmaps = googlemaps.Client(key=API_KEY)
 
 # def chunked_iterable(iterable, size):
