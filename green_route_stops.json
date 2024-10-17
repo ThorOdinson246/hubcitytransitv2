@@ -1,0 +1,121 @@
+[
+  {
+    "x": 31.332083335646928,
+    "y": -89.33051102854016,
+    "location": "W 4th St and Eagle Walk",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.332305855857395,
+    "y": -89.33771551711881,
+    "location": "W 4th St and Reed Green Coliseum",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.33477656215222,
+    "y": -89.34924988536689,
+    "location": "ThornHill Dr at Mark IV Apartments",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32473987356707,
+    "y": -89.34051826080525,
+    "location": "Hardy St and 34th Ave",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.321002698528233,
+    "y": -89.3309781524879,
+    "location": "Midtown stop 28th st",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.308032706525964,
+    "y": -89.31943480108696,
+    "location": "Walmart at Hwy 49",
+    "direction": "Station",
+    "stop_id": 1
+  },
+  {
+    "x": 31.323811349060282,
+    "y": -89.33262206945784,
+    "location": "S 29th Ave and Hardy St",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.324831958142987,
+    "y": -89.34450678066675,
+    "location": "Hardy St at Midtown Market Shopping Center",
+    "direction": "Station",
+    "stop_id": 1
+  },
+  {
+    "x": 31.33048731320104,
+    "y": -89.3507770213499,
+    "location": "Grand Dr at Grand Theatre",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.328446206598425,
+    "y": -89.34801919342765,
+    "location": "N 40th Ave and Montague Blvd",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32692685791147,
+    "y": -89.3456296747719,
+    "location": "N 38th Ave and Pearl St",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.3095063103417,
+    "y": -89.32071939194326,
+    "location": "Washington St at Live Well Center",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.335390392165845,
+    "y": -89.32972949424298,
+    "location": "W 7th St  at Hillcrest Lot",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32744098369712,
+    "y": -89.32869643166624,
+    "location": "N 26th Ave and Quinn St",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32466313635167,
+    "y": -89.33443666633177,
+    "location": "Hardy St and 30th Ave",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.334745870546442,
+    "y": -89.34409355563605,
+    "location": "W 4th St and Virginia Dr",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.31927602751793,
+    "y": -89.32972051109013,
+    "location": "Mamie St at Forrest General Hospital",
+    "direction": "Inbound",
+    "stop_id": 1
+  }
+]

@@ -122,15 +122,16 @@ def extract_bus_stops(input_file, output_file):
                 for feature in layer.get('featureSet', {}).get('features', []):
                     attributes = feature.get('attributes', {})
                     geometry = feature.get('geometry', {})
-                    bus_stop = {
-                        'name': attributes.get('StopName', 'Unknown'),
-                        'route': attributes.get('Route', 'Unknown'),
-                        'location': {
-                            'x': geometry.get('x', 'Unknown'),
-                            'y': geometry.get('y', 'Unknown')
+                    # if Route : ............. then only extract the data
+                    if attributes.get('Route', '') == 'Gold Line (USM)':
+                        bus_stop = {
+                            'x': convert_coordinates(0,geometry.get('y'))[0],
+                            'y': convert_coordinates(geometry.get('x'),0)[1],
+                            'location':attributes.get('Location', 'Unknown'),
+                            'direction': attributes.get('Direction', 'Unknown'),
+                            'stop_id': +1
                         }
-                    }
-                    bus_stops.append(bus_stop)
+                        bus_stops.append(bus_stop)
         
         with open(output_file, 'w') as f:
             json.dump(bus_stops, f, indent=2)
@@ -197,4 +198,6 @@ def extract_stops_and_names():
 
 
 if __name__ == "__main__":
-    extract_stops_and_names()
+    input_file = 'jsons/allDataTOFindStops.json'
+    extract_bus_stops(input_file, 'gold_route_stops.json')
+

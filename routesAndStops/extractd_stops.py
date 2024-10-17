@@ -327,3 +327,229 @@ blue_route_converted_stops = [
 
 
 ]
+
+
+green_route_converted_stops = [
+    {
+    "x": 31.332083335646928,
+    "y": -89.33051102854016,
+    "location": "W 4th St and Eagle Walk",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.332305855857395,
+    "y": -89.33771551711881,
+    "location": "W 4th St and Reed Green Coliseum",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.33477656215222,
+    "y": -89.34924988536689,
+    "location": "ThornHill Dr at Mark IV Apartments",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32473987356707,
+    "y": -89.34051826080525,
+    "location": "Hardy St and 34th Ave",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.321002698528233,
+    "y": -89.3309781524879,
+    "location": "Midtown stop 28th st",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.308032706525964,
+    "y": -89.31943480108696,
+    "location": "Walmart at Hwy 49",
+    "direction": "Station",
+    "stop_id": 1
+  },
+  {
+    "x": 31.323811349060282,
+    "y": -89.33262206945784,
+    "location": "S 29th Ave and Hardy St",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.324831958142987,
+    "y": -89.34450678066675,
+    "location": "Hardy St at Midtown Market Shopping Center",
+    "direction": "Station",
+    "stop_id": 1
+  },
+  {
+    "x": 31.33048731320104,
+    "y": -89.3507770213499,
+    "location": "Grand Dr at Grand Theatre",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.328446206598425,
+    "y": -89.34801919342765,
+    "location": "N 40th Ave and Montague Blvd",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32692685791147,
+    "y": -89.3456296747719,
+    "location": "N 38th Ave and Pearl St",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.3095063103417,
+    "y": -89.32071939194326,
+    "location": "Washington St at Live Well Center",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.335390392165845,
+    "y": -89.32972949424298,
+    "location": "W 7th St  at Hillcrest Lot",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32744098369712,
+    "y": -89.32869643166624,
+    "location": "N 26th Ave and Quinn St",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32466313635167,
+    "y": -89.33443666633177,
+    "location": "Hardy St and 30th Ave",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.334745870546442,
+    "y": -89.34409355563605,
+    "location": "W 4th St and Virginia Dr",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.31927602751793,
+    "y": -89.32972051109013,
+    "location": "Mamie St at Forrest General Hospital",
+    "direction": "Inbound",
+    "stop_id": 1
+  }
+
+]
+
+gold_route_converted_stops = [
+#   {
+#     "x": 31.335390392165845,
+#     "y": -89.32972949424298,
+#     "location": "Hillcrest Parking Lot at W 7th St",
+#     "direction": "Outbound",
+#     "stop_id": 1
+#   },
+  # Can comment out stop 1 as it is just service stop, bus doesnot necessarily stop there
+  {
+    "x": 31.333894174493043,
+    "y": -89.32942406704638,
+    "location": "Service Dr at Hillcrest Dorm",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.3304719667,
+    "y": -89.33063679267994,
+    "location": "Eagle Walk and Black and Gold Blvd",
+    "direction": "Outbound",
+    "stop_id": 2
+  },
+  {
+    "x": 31.32797812704095,
+    "y": -89.3306278095271,
+    "location": "Eagle Walk and College Dr",
+    "direction": "Outbound",
+    "stop_id": 3
+  },
+  {
+    "x": 31.32588325066719,
+    "y": -89.33300834503001,
+    "location": "Southern Miss Dr and W Memorial Dr",
+    "direction": "Outbound",
+    "stop_id": 4
+  },
+  {
+    "x": 31.324954737437423,
+    "y": -89.33295444611296,
+    "location": "W Memorial Dr and Hardy St",
+    "direction": "Outbound",
+    "stop_id": 5
+  },
+  {
+    "x": 31.32490102151581,
+    "y": -89.33584702132782,
+    "location": "Hardy St and 31st Ave",
+    "direction": "Outbound",
+    "stop_id": 6
+  },
+  {
+    "x": 31.326650610060966,
+    "y": -89.33593685285624,
+    "location": "N 31st Ave and Pearl St",
+    "direction": "Inbound",
+    "stop_id": 7
+  },
+  {
+    "x": 31.326827101836745,
+    "y": -89.34076080593196,
+    "location": "Pearl St and N 34th Ave",
+    "direction": "Inbound",
+    "stop_id": 8
+  },
+  {
+    "x": 31.32841551292826,
+    "y": -89.34196454841268,
+    "location": "N 35th Ave and Montague Blvd",
+    "direction": "Inbound",
+    "stop_id": 9
+  },
+  {
+    "x": 31.32837714582648,
+    "y": -89.33829043890064,
+    "location": "Montague Blvd and Fraternity Dr at DuBard School",
+    "direction": "Inbound",
+    "stop_id": 10
+  },
+  {
+    "x": 31.328331105283702,
+    "y": -89.3348588745153,
+    "location": "Montague Blvd and Golden Eagle Ave",
+    "direction": "Inbound",
+    "stop_id": 11
+  },
+  {
+    "x": 31.32945909209896,
+    "y": -89.33472412722267,
+    "location": "Golden Eagle Ave and Charles Lane",
+    "direction": "Inbound",
+    "stop_id": 12
+  },
+  {
+    "x": 31.33190685372659,
+    "y": -89.33294546296013,
+    "location": "W 4th St at Century Park",
+    "direction": "Inbound",
+    "stop_id": 13
+  }
+]

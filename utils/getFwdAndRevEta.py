@@ -2,6 +2,7 @@
 import os
 import sys
 
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import requests
@@ -33,7 +34,9 @@ def haversine(lat1, lon1, lat2, lon2):
 def get_nearest_stop(user_lat, user_lng):
     nearest_stop = None
     min_distance = float('inf')
-    for stop in blue_route_converted_stops:
+    from app import get_tracking_route
+    route_stops=get_tracking_route()
+    for stop in route_stops:
         stop_lat = stop['x']
         stop_lng = stop['y']
         distance = haversine(user_lat, user_lng, stop_lat, stop_lng)
@@ -147,7 +150,7 @@ def get_reverse_route_waypoints(waypoints, current_stop_index):
 
 # Main logic to calculate BUS ETA 
 def calculate_bus_eta(user_location, bus_location, stops):
-    """Main logic function that calculates ETA for forward or reverse route."""
+    # MainLogic makichuu 
     waypoints = [(stop["x"], stop["y"]) for stop in stops]
     coord_to_stop_id = {(stop["x"], stop["y"]): stop["stop_id"] for stop in stops}
 
@@ -177,7 +180,7 @@ if __name__ == "__main__":
     eta = calculate_bus_eta(user_location, bus_location, blue_route_converted_stops)
     print(f"Final ETA: {eta} minutes")
 
-
+    # Commented cuz moved it to the function 
     # user_location = (31.325966, -89.338747)
     # print(f"User location: {user_location}")   
     # bus_location = (31.324681, -89.295340)

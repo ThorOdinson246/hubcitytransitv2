@@ -1,10 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 from apscheduler.schedulers.background import BackgroundScheduler
 from utils.getCurrentLocation import DeviceLocationFetcher, get_user_eta
-from utils.getFwdAndRevEta import calculate_bus_eta
 from utils.routesForFlask import Routes
 from utils.deviceIDs import device_id
-from utils.extracted_stops import blue_route_converted_stops
+from utils.extracted_stops import blue_route_converted_stops, green_route_converted_stops, gold_route_converted_stops
 
 app = Flask(__name__)
 
@@ -18,13 +17,29 @@ fetcher = DeviceLocationFetcher(feature_layer_url)
 
 def fetch_bus_location():
     global current_location
+    global bus_to_track
+    bus_to_track = "gold2"
+    # global current_speed
     # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
-    location = fetcher.get_bus_location(device_id["red"])
+    location = fetcher.get_bus_location(device_id[bus_to_track])
+    # speed=
     if location:
         current_location = location
+
+
         # print("Bus location debug:", current_location)
         return current_location
 
+def get_tracking_route():
+    if bus_to_track=="blue1" or bus_to_track=="blue2":
+        return blue_route_converted_stops
+    elif bus_to_track=="gold1" or bus_to_track=="gold2":
+        return gold_route_converted_stops
+    elif bus_to_track=="green":
+        return green_route_converted_stops
+    else:
+        print("Bus not found, going with default route: blue")
+        return blue_route_converted_stops
 
 @app.route('/')
 def index():
@@ -53,8 +68,13 @@ def get_routes():
 
 @app.route('/bus_stops')
 def get_bus_stops():
-    blue_route_stops_data = blue_route_converted_stops
-    return jsonify(blue_route_converted_stops)
+    bus_stops={
+        "blue_stops": blue_route_converted_stops,
+        "green_stops": green_route_converted_stops,
+        "gold_stops": gold_route_converted_stops
+
+    }
+    return jsonify(bus_stops)
     
 
 
@@ -96,7 +116,7 @@ def user_location():
     else:
         print("Invalid user location data")
         return jsonify({"status": "error", "message": "Invalid location data"}), 400
-
+from utils.getFwdAndRevEta import calculate_bus_eta
 @app.route('/get_eta', methods=['GET'])
 def get_eta():
     dest_lat = current_location[0]
@@ -110,8 +130,10 @@ def get_eta():
     else:
         print(f"Data is received, now computing the ETA between user: {user_lat},{user_lng} and destination: {dest_lat},{dest_lng}")
 
+
+
     # Calculate the ETA using the provided function
-    eta = calculate_bus_eta((user_lat, user_lng), (dest_lat, dest_lng), blue_route_converted_stops)
+    eta = calculate_bus_eta((user_lat, user_lng), (dest_lat, dest_lng), get_tracking_route())
 
     return jsonify({
         'eta': eta
