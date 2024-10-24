@@ -13,24 +13,24 @@ current_location =31.324811, -89.328526
    #Change location here to test  location of the bus
 feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
 fetcher = DeviceLocationFetcher(feature_layer_url)
-
+# bus_to_track = "blue1"  # Default bus to track
 
 def fetch_bus_location():
     global current_location
+    # a post request to get which bus to track
     global bus_to_track
-    bus_to_track = "gold2"
-    # global current_speed
+    bus_to_track = 'green'  # Default bus to track
     # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
     location = fetcher.get_bus_location(device_id[bus_to_track])
     # speed=
     if location:
         current_location = location
 
-
         # print("Bus location debug:", current_location)
-        return current_location
+        return current_location, bus_to_track
 
-def get_tracking_route():
+def get_tracking_route(): 
+    print("For the function get_tracking_route, bus to track:", bus_to_track)
     if bus_to_track=="blue1" or bus_to_track=="blue2":
         return blue_route_converted_stops
     elif bus_to_track=="gold1" or bus_to_track=="gold2":
@@ -41,13 +41,22 @@ def get_tracking_route():
         print("Bus not found, going with default route: blue")
         return blue_route_converted_stops
 
+# @app.route('/track_bus', methods=['POST'])
+# def track_bus():
+#     data = request.get_json()
+#     global bus_to_track
+#     bus_to_track = data.get('bus_to_track','blue1')  # Default to blue1 if not provided
+#     print("From front end, bus to track:", bus_to_track)
+#     return jsonify({"status": "success", "bus_to_track": bus_to_track})
+
+
 @app.route('/')
 def index():
     return render_template('map.html')
 
 @app.route('/bus_location')
 def bus_location():
-    return jsonify({'location': current_location})
+    return jsonify({'location': fetch_bus_location()[0], 'bus_id': fetch_bus_location()[1]})
 
 @app.route('/my_icon.png')
 def icon():
@@ -77,36 +86,13 @@ def get_bus_stops():
     return jsonify(bus_stops)
     
 
-
-# COMMENT C# STARTS HERE 
-# # 
-# @app.route('/get_eta', methods=['POST'])
-# def calculate_eta():
-#     user_lat = request.json.get('user_lat')
-#     user_lng = request.json.get('user_lng')
-#     # GEt destination coordinates from return value of user_location_and_calc_eta
-#     # dest_lat = 
-#     dest_lng = -89.306918  # Replace with your destination's longitude
-
-#     # Call the function to get ETA
-#     distance, duration = get_user_eta(user_lat, user_lng, dest_lat, dest_lng)
-
-#     if distance and duration:
-#         return jsonify({
-#             'distance': distance,
-#             'duration': duration
-#         })
-#     else:
-#         return jsonify({'error': 'Unable to calculate ETA'}), 500
-
-# COMMENT C# ENDS HERE
-
 # Store user location in a global variable
 user_location_data = {'lat': None, 'lng': None}
 
 @app.route('/user_location', methods=['POST'])
 def user_location():
     global user_location_data
+    global which_bus
     user_lat = request.json.get('user_lat')
     user_lng = request.json.get('user_lng')
     if user_lat and user_lng:
@@ -116,6 +102,7 @@ def user_location():
     else:
         print("Invalid user location data")
         return jsonify({"status": "error", "message": "Invalid location data"}), 400
+  
 from utils.getFwdAndRevEta import calculate_bus_eta
 @app.route('/get_eta', methods=['GET'])
 def get_eta():
@@ -130,7 +117,7 @@ def get_eta():
     else:
         print(f"Data is received, now computing the ETA between user: {user_lat},{user_lng} and destination: {dest_lat},{dest_lng}")
 
-
+    print("for the function get_eta , bus to track:", bus_to_track)
 
     # Calculate the ETA using the provided function
     eta = calculate_bus_eta((user_lat, user_lng), (dest_lat, dest_lng), get_tracking_route())
@@ -147,7 +134,6 @@ scheduler.start()
 
 # Initialize route data when the app starts
 if __name__ == "__main__":
-    fetch_bus_location()  # Fetch initial bus location
+    # fetch_bus_location()  # Fetch initial bus location
+    app.run(debug=False)
 
-    # 
-    app.run(debug=True, use_reloader=False)

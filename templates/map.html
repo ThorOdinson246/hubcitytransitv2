@@ -23,6 +23,16 @@
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
+      .drop-container {
+        position: absolute;
+        top: 100px;
+        right: 10px;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
       .route-button {
         display: block;
         margin-bottom: 5px;
@@ -39,7 +49,7 @@
       }
       #eta-box {
         position: absolute;
-        top: 500px;
+        top: 600px;
         left: 10px;
         background-color: rgb(233, 232, 232);
         padding: 10px;
@@ -56,6 +66,16 @@
     <div id="map"></div>
     <div class="button-container" id="button-container"></div>
     <div id="eta-box"></div>
+    <!-- Dropdown menu to select bus to track -->
+    <!-- <div class ="drop-container" id="dropdown-bus">
+      <label for="bus-select">Choose a bus to track:</label>
+      <select id="bus-select">
+        <option value="green">Green Bus</option>
+        <option value="blue1">Blue Bus</option>
+        <option value="gold1">Gold Bus</option>
+      </select>
+      <button onclick="submitBusSelection()">Track Bus</button> -->
+ 
 
     <script>
       var show_bus_stops = false;
@@ -112,31 +132,12 @@
             var location = data.location;
             if (location[0] && location[1]) {
               busMarker.setLatLng([location[0], location[1]]);
+              // also update the bus marker's tooltip
+              busMarker.bindTooltip("Bus: " + data.bus_id);
             }
             // console.debug("updating bus location");
           });
       }
-
-      // function fetchBusStops() {
-      //   fetch("/bus_stops")
-      //     .then((response) => response.json())
-      //     .then((data) => {
-      //   busStopsLayer.clearLayers(); // Clear existing bus stops
-
-      //   // Process blue route stops
-      //   data.blue_stops.forEach((busStop) => {
-      //     var marker = L.marker([busStop.x, busStop.y]).bindPopup(" '"+ busStop.stop_id+ "' "+  busStop.location+" "+busStop.direction);
-      //     busStopsLayer.addLayer(marker);
-      //   });
-
-      //   // Process green route stops
-      //   data.green_stops.forEach((busStop) => {
-      //     var marker = L.marker([busStop.x, busStop.y]).bindPopup(" '"+ busStop.stop_id+ "' "+  busStop.location+" "+busStop.direction);
-      //     busStopsLayer.addLayer(marker);
-      //   });
-      //     })
-      //     .catch((error) => console.error("Error fetching bus stops:", error));
-      // }
 
       function fetchBusStops() {
         fetch("/bus_stops")
@@ -193,20 +194,6 @@
           .catch((error) => console.error("Error fetching bus stops: ", error));
       }
       fetchBusStops();
-
-      function updateETA() {
-        fetch("/get_eta")
-          .then((response) => response.json())
-          .then((data) => {
-            var etaBox = document.getElementById("eta-box");
-            if (data.eta) {
-              // etaBox.innerHTML = `Distance: ${data.distance}, ETA: ${data.eta}, Following ETA: ${data.following_eta}`;
-              etaBox.innerHTML = `Distance: ${data.distance}, ETA: ${data.next_eta}, Following ETA: ${data.following_eta}`;
-            } else {
-              etaBox.innerHTML = "ETA unavailable";
-            }
-          });
-      }
 
       setInterval(updateBusLocation, 5000);
 
@@ -267,29 +254,8 @@
           createRouteButton(blueRoute, "#3a72ff", "Blue");
           createRouteButton(goldRoute, "#ffcc00", "Gold");
           createRouteButton(greenRoute, "#53a600", "Green");
-          createRouteButton(brownRoute, "#a52a2a", "Brown");
-          createRouteButton(orangeRoute, "#ff8c00", "Orange");
-          createRouteButton(redRoute, "#ff0000", "Red");
-          createRouteButton(purpleRoute, "#800080", "Purple");
         })
         .catch((error) => console.error("Error fetching routes:", error));
-
-      // Create and add button to toggle bus stops
-      // var busStopsButton = document.createElement("button");
-      // busStopsButton.textContent = "Show Bus Stops";
-      // busStopsButton.className = "route-button";
-      // busStopsButton.onclick = function () {
-      //   if (show_bus_stops) {
-      //     show_bus_stops = false;
-      //     busStopsButton.textContent = "Show Bus Stops";
-      //     map.removeLayer(busStopsLayer); // Hide bus stops
-      //   } else {
-      //     show_bus_stops = true;
-      //     busStopsButton.textContent = "Hide Bus Stops";
-      //     map.addLayer(busStopsLayer); // Show bus stops
-      //   }
-      // };
-      // buttonContainer.appendChild(busStopsButton);
 
       function updateETA() {
         fetch("/get_eta")
@@ -323,7 +289,7 @@
                 url: "/user_location",
                 method: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({ user_lat: userLat, user_lng: userLng }),
+                data: JSON.stringify({ user_lat: userLat, user_lng: userLng ,}),
                 success: function (response) {
                   console.log(
                     "Location sent successfully to backend:",
@@ -342,34 +308,33 @@
         } else {
           console.error("Geolocation is not supported by this browser.");
         }
+
+        // function submitBusSelection() {
+        //   var selectedBus = document.getElementById("bus-select").value;
+        //   console.log("Selected bus:", selectedBus);
+        //   // Send the selected bus to the backend
+        //   $.ajax({
+        //     url: "/track_bus",
+        //     method: "POST",
+        //     contentType: "application/json",
+        //     data: JSON.stringify({ bus_id: selectedBus }),
+        //     success: function (response) {
+        //       console.log("Bus selection sent successfully:", response);
+        //     },
+        //     error: function (xhr) {
+        //       console.error("Error sending bus selection:", xhr);
+        //     },
+        //   });
+        // }
+
+        // 
       }
 
       // Call the function to start the process
       getUserLocationAndSendToBackend();
       updateETA();
 
-      //   function calculateETA(userLat, userLng) {
-      //     $.ajax({
-      //       url: "/get_eta",
-      //       method: "POST",
-      //       contentType: "application/json",
-      //       data: JSON.stringify({ user_lat: userLat, user_lng: userLng }),
-      //       success: function (response) {
-      //         var etaBox = document.getElementById("eta-box");
-      //         if (response.eta) {
-      //           etaBox.innerHTML = `Distance: ${response.distance}, ETA: ${response.eta}`;
-      //         } else {
-      //           etaBox.innerHTML = "ETA unavailable";
-      //         }
-      //       },
-      //       error: function (xhr) {
-      //         console.error("Error calculating ETA:", xhr);
-      //       },
-      //     });
-      //   }
 
-      // Call getUserLocation() to start the process
-      // getUserLocation();
     </script>
   </body>
 </html>

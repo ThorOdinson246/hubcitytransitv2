@@ -51,24 +51,6 @@ def get_bus_location_by_id(bus_id):
     bus_lng = location.get_bus_location(device_id[bus_id])[1]
     return bus_lat, bus_lng
 
-# # Calculate ETA with waypoint limit ()
-# def calculate_eta_with_waypoint_limit(current_location, destination, waypoints):
-#     eta = 0
-#     while waypoints:
-#         segment_waypoints = waypoints[:25]
-#         # print(f"Calculating ETA for segment: {segment_waypoints}")   
-#         eta_segment = calculate_eta(current_location, segment_waypoints[-1], segment_waypoints)
-#         print(f"ETA for segment: {eta_segment}")   
-#         eta += eta_segment
-#         current_location = segment_waypoints[-1]
-#         waypoints = waypoints[25:]
-#     # Add the final leg from the last waypoint to the destination
-#     eta_final_leg = calculate_eta(current_location, destination, [])
-#     print(f"ETA for final leg: {eta_final_leg}")   
-#     eta += eta_final_leg
-#     # return eta in minutes,
-#     return eta/60
-
 # Calculate ETA with waypoint limit (improved)
 def calculate_eta_with_waypoint_limit(current_location, destination, waypoints):
     eta = 0
@@ -173,67 +155,12 @@ def calculate_bus_eta(user_location, bus_location, stops):
         print(f"Forward ETA: {forward_eta}")
         return forward_eta
 
+
+
+# Example usage
 if __name__ == "__main__":
      # Example user location (latitude, longitude)
     user_location = (31.325966, -89.338747)
     bus_location = (31.328148, -89.293578)
     eta = calculate_bus_eta(user_location, bus_location, blue_route_converted_stops)
     print(f"Final ETA: {eta} minutes")
-
-    # Commented cuz moved it to the function 
-    # user_location = (31.325966, -89.338747)
-    # print(f"User location: {user_location}")   
-    # bus_location = (31.324681, -89.295340)
-
-    # waypoints=[(stop["x"], stop["y"]) for stop in blue_route_converted_stops]
-
-    # nearest_stop_to_user = get_nearest_stop(user_location[0], user_location[1])
-    # print(f"Nearest stop to user index: {nearest_stop_to_user}")   
-    # nearest_stop_to_bus = get_nearest_stop(bus_location[0], bus_location[1])
-    # print(f"Nearest stop to bus: {nearest_stop_to_bus}")   
-
-    # # Find indices of nearest stops
-    # user_stop_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_user][0])
-    # nearest_stop_to_bus_index = waypoints.index([(stop["x"], stop["y"]) for stop in blue_route_converted_stops if stop["stop_id"] == nearest_stop_to_bus][0])
-
-
-    # # Stop id printing for better understanding 
-    # coord_to_stop_id = {(stop["x"], stop["y"]): stop["stop_id"] for stop in blue_route_converted_stops}
-
-
-    # # Determine the direction of travel
-    # if nearest_stop_to_bus_index > user_stop_index:
-    #     # Bus has already passed the user
-    #     print("Bus le pass garisakyo, so reverse ma janxa ra bus thim nai pugxa")
-    #     direction = "reverse"
-    #     # Yesko baaki sabai waypoint chai forward hune vayo
-    #     reverse_waypoints = waypoints[nearest_stop_to_bus_index:] + waypoints[:user_stop_index + 1]
-    #     # Stop id printing for better understanding 
-    #     reverse_stop_ids = [coord_to_stop_id[coord] for coord in reverse_waypoints]
-    #     print(f"Reverse stop IDs: {reverse_stop_ids}")   
-
-    #     print(f"Forward waypoints for reverse direction: {reverse_waypoints}")
-    # else:
-    #     # Bus is yet to come
-    #     print("Bus ajhai aaunai baki xa, so forward ma janxa ")
-    #     direction = "forward"
-    #     forward_waypoints = waypoints[nearest_stop_to_bus_index:user_stop_index + 1]
-                
-    #     forward_stop_ids = [coord_to_stop_id[coord] for coord in forward_waypoints]
-    #     print(f"Forward stop IDs: {forward_stop_ids}")   
-
-    #     print(f"Forward waypoints: {forward_waypoints}")
-    # print("Direction is actually ", direction)
-    # if direction == "forward":
-    #     forward_eta = calculate_eta_with_waypoint_limit(bus_location, forward_waypoints[-1], forward_waypoints)
-    #     print( "Forward ETA:", forward_eta)
-    # else:
-    #     reverse_eta = calculate_eta_with_waypoint_limit(bus_location, reverse_waypoints[0], reverse_waypoints)
-    #     print( "Reverse ETA:", reverse_eta)
-
-    
-
-
-
-
-
