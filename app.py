@@ -10,16 +10,15 @@ app = Flask(__name__)
 # Global variable to store the current location of the bus
 current_location =31.324811, -89.328526
 
-   #Change location here to test  location of the bus
+#Change location here to test  location of the bus
 feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
 fetcher = DeviceLocationFetcher(feature_layer_url)
-# bus_to_track = "blue1"  # Default bus to track
+bus_to_track = "blue1"  # Default bus to track
 
 def fetch_bus_location():
     global current_location
     # a post request to get which bus to track
     global bus_to_track
-    bus_to_track = 'green'  # Default bus to track
     # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
     location = fetcher.get_bus_location(device_id[bus_to_track])
     # speed=
@@ -28,6 +27,18 @@ def fetch_bus_location():
 
         # print("Bus location debug:", current_location)
         return current_location, bus_to_track
+    
+@app.route('/track_bus', methods=['POST'])
+def track_bus():
+    global bus_to_track
+    data = request.get_json()
+    bus_to_track = data.get('bus_to_track', 'blue1')  # Default to blue1 if not provided
+    print("From front end, bus to track:", bus_to_track)
+    return jsonify({
+        "status": "success", 
+        "bus_to_track": bus_to_track,
+        "message": f"Now tracking {bus_to_track}"
+    })
 
 def get_tracking_route(): 
     print("For the function get_tracking_route, bus to track:", bus_to_track)
@@ -134,6 +145,6 @@ scheduler.start()
 
 # Initialize route data when the app starts
 if __name__ == "__main__":
-    # fetch_bus_location()  # Fetch initial bus location
+    fetch_bus_location()  # Fetch initial bus location
     app.run(debug=False)
 

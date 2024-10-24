@@ -60,22 +60,40 @@
         background-color: rgb(233, 232, 232);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
+      .bus-selector {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        select {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+
     </style>
   </head>
   <body>
     <div id="map"></div>
     <div class="button-container" id="button-container"></div>
     <div id="eta-box"></div>
-    <!-- Dropdown menu to select bus to track -->
-    <!-- <div class ="drop-container" id="dropdown-bus">
-      <label for="bus-select">Choose a bus to track:</label>
-      <select id="bus-select">
-        <option value="green">Green Bus</option>
-        <option value="blue1">Blue Bus</option>
-        <option value="gold1">Gold Bus</option>
+    <div class="bus-selector">
+      <select id="busSelect" onchange="changeBusTracking()">
+          <option value="blue1">Blue Bus 1</option>
+          <option value="blue2">Blue Bus 2</option>
+          <option value="gold1">Gold Bus 1</option>
+          <option value="gold2">Gold Bus 2</option>
+          <option value="green">Green Bus</option>
       </select>
-      <button onclick="submitBusSelection()">Track Bus</button> -->
- 
+  </div>
 
     <script>
       var show_bus_stops = false;
@@ -308,33 +326,38 @@
         } else {
           console.error("Geolocation is not supported by this browser.");
         }
-
-        // function submitBusSelection() {
-        //   var selectedBus = document.getElementById("bus-select").value;
-        //   console.log("Selected bus:", selectedBus);
-        //   // Send the selected bus to the backend
-        //   $.ajax({
-        //     url: "/track_bus",
-        //     method: "POST",
-        //     contentType: "application/json",
-        //     data: JSON.stringify({ bus_id: selectedBus }),
-        //     success: function (response) {
-        //       console.log("Bus selection sent successfully:", response);
-        //     },
-        //     error: function (xhr) {
-        //       console.error("Error sending bus selection:", xhr);
-        //     },
-        //   });
-        // }
-
-        // 
-      }
+       
 
       // Call the function to start the process
+     
+      // updateETA();
+      
+      }
       getUserLocationAndSendToBackend();
       updateETA();
 
-
+      function changeBusTracking() {
+        const selectedBus = document.getElementById('busSelect').value;
+        
+        // Send the selected bus to the backend
+        fetch('/track_bus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                bus_to_track: selectedBus
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Bus tracking updated:', data);
+            // Optionally refresh the map or update UI
+        })
+        .catch(error => {
+            console.error('Error updating bus tracking:', error);
+        });
+    }
     </script>
   </body>
 </html>
