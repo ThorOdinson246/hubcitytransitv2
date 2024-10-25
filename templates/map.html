@@ -61,24 +61,22 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
       .bus-selector {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-            background: white;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        select {
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
 
-
+      select {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
     </style>
   </head>
   <body>
@@ -87,13 +85,13 @@
     <div id="eta-box"></div>
     <div class="bus-selector">
       <select id="busSelect" onchange="changeBusTracking()">
-          <option value="blue1">Blue Bus 1</option>
-          <option value="blue2">Blue Bus 2</option>
-          <option value="gold1">Gold Bus 1</option>
-          <option value="gold2">Gold Bus 2</option>
-          <option value="green">Green Bus</option>
+        <option value="blue1">Blue Bus 1</option>
+        <option value="blue2">Blue Bus 2</option>
+        <option value="gold1">Gold Bus 1</option>
+        <option value="gold2">Gold Bus 2</option>
+        <option value="green">Green Bus</option>
       </select>
-  </div>
+    </div>
 
     <script>
       var show_bus_stops = false;
@@ -117,14 +115,12 @@
       }
 
       function getAwesomeMarker(color) {
-      return L.AwesomeMarkers.icon({
-        icon: 'info-sign',
-        markerColor: color,
-        prefix: 'glyphicon'
-      });
-    }
-
-
+        return L.AwesomeMarkers.icon({
+          icon: "info-sign",
+          markerColor: color,
+          prefix: "glyphicon",
+        });
+      }
 
       var busMarker = L.marker([31.3271, -89.2903], { icon: getIcon() })
         .bindTooltip("Bus")
@@ -187,7 +183,7 @@
             busStopLayers["Blue Route Stops"] = L.layerGroup();
             data.blue_stops.forEach((stop) => {
               L.marker([stop.x, stop.y])
-              .addTo(busStopLayers["Blue Route Stops"])
+                .addTo(busStopLayers["Blue Route Stops"])
                 .bindPopup(`${stop.location}: ${stop.stop_id}`);
             });
             createButton("Blue Route Stops", data.blue_stops);
@@ -195,7 +191,7 @@
             busStopLayers["Gold Route Stops"] = L.layerGroup();
             data.gold_stops.forEach((stop) => {
               L.marker([stop.x, stop.y])
-              .addTo(busStopLayers["Gold Route Stops"])
+                .addTo(busStopLayers["Gold Route Stops"])
                 .bindPopup(`${stop.location}: ${stop.stop_id}`);
             });
             createButton("Gold Route Stops", data.gold_stops);
@@ -204,7 +200,7 @@
             busStopLayers["Green Route Stops"] = L.layerGroup();
             data.green_stops.forEach((stop) => {
               L.marker([stop.x, stop.y])
-              .addTo(busStopLayers["Green Route Stops"])
+                .addTo(busStopLayers["Green Route Stops"])
                 .bindPopup(`${stop.location}: ${stop.stop_id}`);
             });
             createButton("Green Route Stops", data.green_stops);
@@ -276,6 +272,7 @@
         .catch((error) => console.error("Error fetching routes:", error));
 
       function updateETA() {
+        // Simple fetch without content-type for GET request
         fetch("/get_eta")
           .then((response) => response.json())
           .then((data) => {
@@ -284,15 +281,17 @@
               updateETA();
             };
             if (data.eta) {
-              etaBox.innerHTML = `Distance: ${data.distance}, ETA: ${data.eta} `;
+              etaBox.innerHTML = `ETA: ${data.eta} (Bus: ${data.bus_tracked})`;
             } else {
               etaBox.innerHTML = "ETA unavailable";
             }
           })
-          .catch((error) => console.error("Error fetching ETA:", error));
+          .catch((error) => {
+            console.error("Error fetching ETA:", error);
+            var etaBox = document.getElementById("eta-box");
+            etaBox.innerHTML = "Error fetching ETA";
+          });
       }
-
-      // Example usage of updateETA function
 
       function getUserLocationAndSendToBackend() {
         if (navigator.geolocation) {
@@ -300,24 +299,26 @@
             function (position) {
               var userLat = position.coords.latitude;
               var userLng = position.coords.longitude;
-              // Print the data
               console.log("User location:", userLat, userLng);
-              // Send the data to the Flask backend
-              $.ajax({
-                url: "/user_location",
+
+              fetch("/user_location", {
                 method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ user_lat: userLat, user_lng: userLng ,}),
-                success: function (response) {
-                  console.log(
-                    "Location sent successfully to backend:",
-                    response
-                  );
+                headers: {
+                  "Content-Type": "application/json",
                 },
-                error: function (xhr) {
-                  console.error("Error sending location:", xhr);
-                },
-              });
+                body: JSON.stringify({
+                  user_lat: userLat,
+                  user_lng: userLng,
+                }),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log("Location sent successfully to backend:", data);
+                  updateETA();
+                })
+                .catch((error) => {
+                  console.error("Error sending location:", error);
+                });
             },
             function (error) {
               console.error("Error getting user location: " + error.message);
@@ -326,38 +327,33 @@
         } else {
           console.error("Geolocation is not supported by this browser.");
         }
-       
-
-      // Call the function to start the process
-     
-      // updateETA();
-      
       }
-      getUserLocationAndSendToBackend();
-      updateETA();
 
       function changeBusTracking() {
-        const selectedBus = document.getElementById('busSelect').value;
-        
-        // Send the selected bus to the backend
-        fetch('/track_bus', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                bus_to_track: selectedBus
-            })
+        const selectedBus = document.getElementById("busSelect").value;
+
+        fetch("/track_bus", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bus_to_track: selectedBus,
+          }),
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Bus tracking updated:', data);
-            // Optionally refresh the map or update UI
-        })
-        .catch(error => {
-            console.error('Error updating bus tracking:', error);
-        });
-    }
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Bus tracking updated:", data);
+            // setTimeout(updateETA, 500);
+
+            
+          })
+          .catch((error) => {
+            console.error("Error updating bus tracking:", error);
+          });
+      }
+      getUserLocationAndSendToBackend();
+      // updateETA();
     </script>
   </body>
 </html>
