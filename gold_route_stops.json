@@ -1,0 +1,100 @@
+[
+  {
+    "x": 31.335390392165845,
+    "y": -89.32972949424298,
+    "location": "Hillcrest Parking Lot at W 7th St",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.333894174493043,
+    "y": -89.32942406704638,
+    "location": "Service Dr at Hillcrest Dorm",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.3304719667,
+    "y": -89.33063679267994,
+    "location": "Eagle Walk and Black and Gold Blvd",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32797812704095,
+    "y": -89.3306278095271,
+    "location": "Eagle Walk and College Dr",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32588325066719,
+    "y": -89.33300834503001,
+    "location": "Southern Miss Dr and W Memorial Dr",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.324954737437423,
+    "y": -89.33295444611296,
+    "location": "W Memorial Dr and Hardy St",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32490102151581,
+    "y": -89.33584702132782,
+    "location": "Hardy St and 31st Ave",
+    "direction": "Outbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.326650610060966,
+    "y": -89.33593685285624,
+    "location": "N 31st Ave and Pearl St",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.326827101836745,
+    "y": -89.34076080593196,
+    "location": "Pearl St and N 34th Ave",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32841551292826,
+    "y": -89.34196454841268,
+    "location": "N 35th Ave and Montague Blvd",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32837714582648,
+    "y": -89.33829043890064,
+    "location": "Montague Blvd and Fraternity Dr at DuBard School",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.328331105283702,
+    "y": -89.3348588745153,
+    "location": "Montague Blvd and Golden Eagle Ave",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.32945909209896,
+    "y": -89.33472412722267,
+    "location": "Golden Eagle Ave and Charles Lane",
+    "direction": "Inbound",
+    "stop_id": 1
+  },
+  {
+    "x": 31.33190685372659,
+    "y": -89.33294546296013,
+    "location": "W 4th St at Century Park",
+    "direction": "Inbound",
+    "stop_id": 1
+  }
+]

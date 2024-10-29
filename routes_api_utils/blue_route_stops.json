@@ -1,0 +1,615 @@
+[{"geometry": {
+    "x": -9939662,
+    "y": 3675211,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 0,
+    "Id": 1,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Main St and Front St",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9939932,
+    "y": 3675423,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 1,
+    "Id": 2,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Main St and New Orleans St at Federal Building",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9940133,
+    "y": 3675419,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 2,
+    "Id": 3,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "McLeod St at Fire Station No.1",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9940351,
+    "y": 3674991,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 3,
+    "Id": 45,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 1st Ave",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9940490,
+    "y": 3675017,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 4,
+    "Id": 4,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Green St at Main Library",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9941237,
+    "y": 3674984,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 5,
+    "Id": 43,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Pinehurst St",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9941936,
+    "y": 3675009,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 6,
+    "Id": 5,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Hutchinson Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9942434,
+    "y": 3675009,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 7,
+    "Id": 6,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and N 17th",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9942806,
+    "y": 3675009,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 8,
+    "Id": 7,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Park Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9942831,
+    "y": 3674980,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 9,
+    "Id": 40,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Park Ave",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9943357,
+    "y": 3675010,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 10,
+    "Id": 8,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 21st Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9943912,
+    "y": 3675013,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 11,
+    "Id": 9,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 25th Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9944307,
+    "y": 3674539,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 12,
+    "Id": 36,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "S 28th Ave and Arlington Loop",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9943377,
+    "y": 3674977,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 13,
+    "Id": 39,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy and 21st Ave",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9942464,
+    "y": 3674979,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 14,
+    "Id": 41,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy and S 17th Ave at Zoo",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9941893,
+    "y": 3674983,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 15,
+    "Id": 42,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Hutchinson Ave",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9947897,
+    "y": 3674860,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 16,
+    "Id": 17,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hwy 98 W and Mayfair Rd",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9940824,
+    "y": 3674990,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 17,
+    "Id": 44,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Mamie St",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9939803,
+    "y": 3675091,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 18,
+    "Id": 46,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Front St and Forrest St at City Hall",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9943934,
+    "y": 3674976,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 19,
+    "Id": 38,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 25th Ave",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9944462,
+    "y": 3674874,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 21,
+    "Id": 35,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "S 29th and Hardy St",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9944304,
+    "y": 3675013,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 22,
+    "Id": 10,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St at USM Rose Garden",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9944309,
+    "y": 3674971,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 23,
+    "Id": 37,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "S 28th Ave and Hardy",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9944821,
+    "y": 3675016,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 24,
+    "Id": 11,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 31st Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9945224,
+    "y": 3675023,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 25,
+    "Id": 12,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and Ross Blvd",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9945630,
+    "y": 3675034,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 26,
+    "Id": 13,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 36th Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9945891,
+    "y": 3675040,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 27,
+    "Id": 14,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and  38th Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9946127,
+    "y": 3675044,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 28,
+    "Id": 15,
+    "Route": "Blue Line (Hardy St)",
+    "Location": " Hardy St and 40th Ave",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9947421,
+    "y": 3674948,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 29,
+    "Id": 16,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hwy 98 W and Coco Cola St",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9948181,
+    "y": 3674953,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 30,
+    "Id": 18,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "E Hospital Dr at Green Eye Institute",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9948367,
+    "y": 3674895,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 32,
+    "Id": 20,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "W Hospital Dr and Millsaps Dr",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9949108,
+    "y": 3674951,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 34,
+    "Id": 21,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Turtle Creek Mall SE side of loop road",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9949266,
+    "y": 3674823,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 35,
+    "Id": 22,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Turtle Creek Mall S side of loop road",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9949519,
+    "y": 3675341,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 36,
+    "Id": 23,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Turtle Creek Mall W side of loop road",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9949887,
+    "y": 3674850,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 37,
+    "Id": 24,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Cross Creek Parkway at Bed Bath and Beyond",
+    "Direction": "Outbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9949654,
+    "y": 3674444,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 38,
+    "Id": 25,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Walmart",
+    "Direction": "Station"
+  }
+},
+{
+  "geometry": {
+    "x": -9949196,
+    "y": 3674637,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 39,
+    "Id": 26,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hwy 98 W at Lowe's",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9948794,
+    "y": 3674674,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 40,
+    "Id": 27,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hwy 98 W at TJ Maxx",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9948257,
+    "y": 3674733,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 41,
+    "Id": 28,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hwy 98 W and Fairfield Dr",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9947856,
+    "y": 3674798,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 42,
+    "Id": 29,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hwy 98 W and Mayfair Rd",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9947049,
+    "y": 3674806,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 43,
+    "Id": 31,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St at Midtown Market Shopping Center",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9945785,
+    "y": 3675007,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 44,
+    "Id": 32,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St at Midtown Market Place",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9945341,
+    "y": 3674995,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 45,
+    "Id": 33,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 34th Ave",
+    "Direction": "Inbound"
+  }
+},
+{
+  "geometry": {
+    "x": -9944664,
+    "y": 3674985,
+    "spatialReference": { "wkid": 102100, "latestWkid": 3857 }
+  },
+  "attributes": {
+    "FID": 46,
+    "Id": 34,
+    "Route": "Blue Line (Hardy St)",
+    "Location": "Hardy St and 30th Ave",
+    "Direction": "Inbound"
+  }
+}]
