@@ -9,6 +9,8 @@ import requests
 from utils.extracted_stops import blue_route_converted_stops
 from utils.getCurrentLocation import DeviceLocationFetcher
 from utils.deviceIDs import device_id
+from utils.state_manager import bus_state
+
 
 API_KEY = "AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ"
 
@@ -35,7 +37,7 @@ def get_nearest_stop(user_lat, user_lng):
     nearest_stop = None
     min_distance = float('inf')
     from app import get_tracking_route
-    route_stops=get_tracking_route()
+    route_stops=get_tracking_route(bus_state.current_bus)
     for stop in route_stops:
         stop_lat = stop['x']
         stop_lng = stop['y']

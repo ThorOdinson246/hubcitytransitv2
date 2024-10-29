@@ -1,12 +1,12 @@
-from flask import Flask, render_template, jsonify, request, session
+from flask import Flask, render_template, jsonify, request
 from apscheduler.schedulers.background import BackgroundScheduler
 from utils.getCurrentLocation import DeviceLocationFetcher, get_user_eta
 from utils.routesForFlask import Routes
 from utils.deviceIDs import device_id
 from utils.extracted_stops import blue_route_converted_stops, green_route_converted_stops, gold_route_converted_stops
+from utils.state_manager import *
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure secret key
 
 # Global variable to store the current location of the bus
 current_location =31.324811, -89.328526
@@ -14,38 +14,45 @@ current_location =31.324811, -89.328526
 #Change location here to test  location of the bus
 feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
 fetcher = DeviceLocationFetcher(feature_layer_url)
- #get from session or default to blue1 
 global bus_to_track
-bus_to_track = session.get('bus_to_track', 'blue1')  # Default to blue1 if not provided
+bus_to_track = "blue1"
 
 def fetch_bus_location():
     global current_location
     # a post request to get which bus to track
-    global bus_to_track
     # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
-    location = fetcher.get_bus_location(device_id[bus_to_track])
+    location = fetcher.get_bus_location(device_id[bus_state.current_bus])
     # speed=
     if location:
         current_location = location
 
         # print("Bus location debug:", current_location)
-        return current_location, bus_to_track
-    
-@app.route('/track_bus', methods=['POST'])
-def track_bus():
-    global bus_to_track
-    data = request.get_json()
-    bus_to_track = data.get('bus_to_track')  # Default to blue1 if not provided
-    print("From front end, bus to track:", bus_to_track) 
-    session['bus_to_track'] = bus_to_track   
-    return jsonify({
-        "status": "success", 
-        "bus_to_track": bus_to_track,
-        "message": f"Now tracking {bus_to_track}"
-    })
+        return current_location, bus_state.current_bus
 
-def get_tracking_route(): 
-    global bus_to_track
+@app.route('/track_bus', methods=['POST', 'GET'])
+def track_bus():
+    # global bus_to_track
+    if request.method == 'POST':
+        data = request.get_json()
+        bus_state.current_bus = data.get('bus_to_track', 'blue1')
+        bus_to_track = data.get('bus_to_track', 'blue1')  # Default to blue1 if not provided
+        print("From front end, bus to track:", bus_state.current_bus)
+        return jsonify({
+            "status": "success", 
+            "bus_to_track": bus_state.current_bus,
+            "message": f"Now tracking {bus_state.current_bus}"
+        })
+    elif request.method == 'GET':
+        return jsonify({
+            "status": "success",
+            "bus_to_track": bus_state.current_bus,
+            "message": f"Currently tracking {bus_state.current_bus}"
+        })
+
+def get_tracking_route(bus_to_track=None): 
+    # global bus_to_track
+    if bus_to_track is None:
+        bus_to_track = bus_state.current_bus
     print("For the function get_tracking_route, bus to track:", bus_to_track)
     if bus_to_track=="blue1" or bus_to_track=="blue2":
         return blue_route_converted_stops
@@ -99,7 +106,7 @@ user_location_data = {'lat': None, 'lng': None}
 @app.route('/user_location', methods=['POST'])
 def user_location():
     global user_location_data
-    global which_bus
+    # global which_bus
     user_lat = request.json.get('user_lat')
     user_lng = request.json.get('user_lng')
     if user_lat and user_lng:
@@ -113,7 +120,10 @@ def user_location():
 from utils.getFwdAndRevEta import calculate_bus_eta
 @app.route('/get_eta', methods=['GET'])
 def get_eta():
-    global bus_to_track
+    # global bus_to_track
+    current_bus = bus_state.current_bus
+    # print(which_bus)
+    print("Current bus to track for get_eta:", current_bus)
     try:
         dest_lat = current_location[0]
         dest_lng = current_location[1]
@@ -128,18 +138,18 @@ def get_eta():
                 "eta": None
             })
 
-        print(f"Computing ETA for {bus_to_track} between user: {user_lat},{user_lng} and destination: {dest_lat},{dest_lng}")
-        
+        print(f"Computing ETA for {current_bus} between user: {user_lat},{user_lng} and destination: {dest_lat},{dest_lng}")
+        route= get_tracking_route(current_bus)
         eta = calculate_bus_eta(
             (user_lat, user_lng), 
             (dest_lat, dest_lng), 
-            get_tracking_route()
+            route
         )
         
         return jsonify({
             'status': 'success',
             'eta': eta,
-            'bus_tracking': bus_to_track
+            'bus_tracking': current_bus
         })
         
     except Exception as e:

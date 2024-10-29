@@ -98,6 +98,8 @@
       var show_green_bus_stops = false;
       var busStopsLayer = L.layerGroup();
       var buttonContainer = document.getElementById("button-container");
+      var update_eta_button = document.getElementById("eta-box");
+
 
       var map = L.map("map").setView([31.3271, -89.2903], 13);
 
@@ -271,6 +273,18 @@
         })
         .catch((error) => console.error("Error fetching routes:", error));
 
+        function create_update_eta_button() {
+          var button = document.createElement("button");
+          button.textContent = "Update ETA";
+          button.className = "route-button";
+          button.onclick = function () {
+            updateETA();
+          };
+          buttonContainer.appendChild(button);
+        }
+
+      create_update_eta_button();
+
       function updateETA() {
         // Simple fetch without content-type for GET request
         fetch("/get_eta")
@@ -314,7 +328,7 @@
                 .then((response) => response.json())
                 .then((data) => {
                   console.log("Location sent successfully to backend:", data);
-                  updateETA();
+                  // updateETA();
                 })
                 .catch((error) => {
                   console.error("Error sending location:", error);
@@ -344,7 +358,7 @@
           .then((response) => response.json())
           .then((data) => {
             console.log("Bus tracking updated:", data);
-            // setTimeout(updateETA, 500);
+            updateBusLocation();
 
             
           })
