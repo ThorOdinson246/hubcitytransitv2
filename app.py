@@ -169,5 +169,5 @@ scheduler.start()
 # Initialize route data when the app starts
 if __name__ == "__main__":
     fetch_bus_location()  # Fetch initial bus location
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 

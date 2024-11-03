@@ -94,7 +94,7 @@ def calculate_eta(current_location, destination, waypoints):
         'optimize_waypoints': 'false'
     }
 
-    # print("Request parameters:", params)   
+    print("PAISA UTHYOOOOOOOOOOOOOO")   
 
     response = requests.get(base_url, params=params)
     data = response.json()

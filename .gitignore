@@ -7,3 +7,5 @@ routesAndStops/
 routes_api_utils/
 misc/
 jsons/
+venv/
+__pycache__/
