@@ -8,3 +8,5 @@ device_id = {"blue1": "E258CD5E-7937-450B-9684-0318A2523DAD",
              "purple": "9F4ECAC8-98C3-4264-A904-7EEF3BC7E58E",
              "red": "367E4831-F6D0-4A24-8B85-D69A903256E2",
              }
+
+abc=None
