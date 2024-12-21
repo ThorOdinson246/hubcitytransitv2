@@ -14,4 +14,3 @@ req.txt
 Dockerfile
 dockerfile copy
 .dockerignore
-.gitignore
