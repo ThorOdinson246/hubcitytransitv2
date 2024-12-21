@@ -1,2 +1,0 @@
-?used statemanager, to fixz the current location of the bus and the current bvus being tracked cuz, global variable not that effiecient, too many concurrent calls, multiples instances created,m not worth it. 
-?separate Class, i.e state manager works 
