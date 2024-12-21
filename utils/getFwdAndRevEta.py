@@ -8,7 +8,7 @@ from utils.extracted_stops import blue_route_converted_stops
 from utils.getCurrentLocation import DeviceLocationFetcher
 from utils.deviceIDs import device_id
 from utils.state_manager import bus_state
-from apis import MY_GMAPS_API
+from apis import MY_GMAPS_API, FEATURE_LAYER_URL
 
 API_KEY = MY_GMAPS_API
 
@@ -46,7 +46,7 @@ def get_nearest_stop(user_lat, user_lng):
     return nearest_stop
 
 def get_bus_location_by_id(bus_id):
-    location=DeviceLocationFetcher("https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1")
+    location=DeviceLocationFetcher(FEATURE_LAYER_URL)
     bus_lat = location.get_bus_location(device_id[bus_id])[0]
     bus_lng = location.get_bus_location(device_id[bus_id])[1]
     return bus_lat, bus_lng

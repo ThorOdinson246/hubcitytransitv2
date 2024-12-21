@@ -5,6 +5,7 @@ from utils.routesForFlask import Routes
 from utils.deviceIDs import device_id
 from utils.extracted_stops import blue_route_converted_stops, green_route_converted_stops, gold_route_converted_stops
 from utils.state_manager import *
+from apis import *
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ app = Flask(__name__)
 current_location =31.324811, -89.328526
 
 #Change location here to test  location of the bus
-feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
+feature_layer_url=FEATURE_LAYER_URL
 fetcher = DeviceLocationFetcher(feature_layer_url)
 global bus_to_track
 bus_to_track = "blue1"

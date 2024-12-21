@@ -2,7 +2,7 @@ from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
 import requests
 from utils.deviceIDs import device_id
-
+from apis import FEATURE_LAYER_URL
 class DeviceLocationFetcher:
     def __init__(self, feature_layer_url, username=None, password=None):
         
@@ -93,7 +93,7 @@ def get_user_eta(user_lat, user_lng, bus_lat, bus_lng):
 # Example usage
 if __name__ == "__main__":
 
-    feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
+    feature_layer_url = FEATURE_LAYER_URL
     fetcher = DeviceLocationFetcher(feature_layer_url)
     
     user_lat = 31.325075, 

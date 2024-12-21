@@ -1,4 +1,5 @@
 from pyproj import Transformer
+from apis import FEATURE_LAYER_URL
 class getDataFromArcGIS:
     def __init__(self, feature_layer_url):
         from arcgis.gis import GIS
@@ -32,7 +33,7 @@ class getDataFromArcGIS:
     
 
 if __name__ == "__main__":
-    feature_layer_url = "https://utility.arcgis.com/usrsvcs/servers/b02066689d504f5f9428029f7268e060/rest/services/Hosted/8bd5047cc5bf4195887cc5237cf0d3e0_Track_View/FeatureServer/1"
+    feature_layer_url = FEATURE_LAYER_URL
     fetcher = getDataFromArcGIS(feature_layer_url)
     fetcher.fetch_data() 
     # print(fetcher.get_last_known_location([9]))
