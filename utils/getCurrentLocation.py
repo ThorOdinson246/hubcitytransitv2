@@ -98,8 +98,8 @@ if __name__ == "__main__":
     
     user_lat = 31.325075, 
     user_lng = -89.339472
-    bus_lat = fetcher.get_bus_location(device_id["blue1"])[0]
-    bus_lng = fetcher.get_bus_location(device_id["blue1"])[1]
+    bus_lat = fetcher.get_bus_location(device_id["blue2"])[0]
+    bus_lng = fetcher.get_bus_location(device_id["blue2"])[1]
 
     distance, duration = get_user_eta(user_lat, user_lng, bus_lat, bus_lng)
     if distance and duration:

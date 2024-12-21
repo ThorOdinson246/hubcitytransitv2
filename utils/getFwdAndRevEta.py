@@ -1,18 +1,16 @@
-# Use Google Maps API to calculate ETA, once the shortest route i.e the route forward, and then the reverse route, just go through that route in reverse order
-import os
-import sys
+# import os
+# import sys
 
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import requests
 from utils.extracted_stops import blue_route_converted_stops
 from utils.getCurrentLocation import DeviceLocationFetcher
 from utils.deviceIDs import device_id
 from utils.state_manager import bus_state
+from apis import MY_GMAPS_API
 
-
-API_KEY = "AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ"
+API_KEY = MY_GMAPS_API
 
 # GET THE NEAREST STOP TO USER LOCATION fROM BLUE_ROUTE_CONVERTED_STOPS
 def haversine(lat1, lon1, lat2, lon2):
@@ -98,9 +96,6 @@ def calculate_eta(current_location, destination, waypoints):
 
     response = requests.get(base_url, params=params)
     data = response.json()
-    print(response.url)   
-
-    # print("API response:", data)   
 
     if data["status"] == "OK":
         # mya chicken bug ho ki k ho, but direct legs ko total duration ligda, sab route ko follow nai garena,so manually add handiye legs ko eta  
@@ -131,26 +126,31 @@ def get_current_stop_index(bus_location, waypoints):
 def get_reverse_route_waypoints(waypoints, current_stop_index):
     return waypoints[:current_stop_index][::-1]
 
-
 # Main logic to calculate BUS ETA 
 def calculate_bus_eta(user_location, bus_location, stops):
-    # MainLogic makichuu 
+    # Convert stops to waypoints (latitude, longitude)
     waypoints = [(stop["x"], stop["y"]) for stop in stops]
+    # Create a mapping from coordinates to stop IDs
     coord_to_stop_id = {(stop["x"], stop["y"]): stop["stop_id"] for stop in stops}
 
+    # Get the nearest stop to the user and the bus
     nearest_stop_to_user = get_nearest_stop(user_location[0], user_location[1])
     nearest_stop_to_bus = get_nearest_stop(bus_location[0], bus_location[1])
 
+    # Find the index of the nearest stops in the waypoints list
     user_stop_index = waypoints.index([(stop["x"], stop["y"]) for stop in stops if stop["stop_id"] == nearest_stop_to_user][0])
     nearest_stop_to_bus_index = waypoints.index([(stop["x"], stop["y"]) for stop in stops if stop["stop_id"] == nearest_stop_to_bus][0])
 
+    # Determine if the bus needs to take the reverse route
     if nearest_stop_to_bus_index > user_stop_index:
+        # Calculate reverse waypoints and ETA
         reverse_waypoints = waypoints[nearest_stop_to_bus_index:] + waypoints[:user_stop_index + 1]
         reverse_eta = calculate_eta_with_waypoint_limit(bus_location, reverse_waypoints[0], reverse_waypoints)
         print(f"Reverse Stop IDs: {[coord_to_stop_id[coord] for coord in reverse_waypoints]}")
         print(f"Reverse ETA: {reverse_eta}")
         return reverse_eta
     else:
+        # Calculate forward waypoints and ETA
         forward_waypoints = waypoints[nearest_stop_to_bus_index:user_stop_index + 1]
         forward_eta = calculate_eta_with_waypoint_limit(bus_location, forward_waypoints[-1], forward_waypoints)
         print(f"Forward Stop IDs: {[coord_to_stop_id[coord] for coord in forward_waypoints]}")
@@ -158,11 +158,14 @@ def calculate_bus_eta(user_location, bus_location, stops):
         return forward_eta
 
 
-
 # Example usage
 if __name__ == "__main__":
      # Example user location (latitude, longitude)
-    user_location = (31.325966, -89.338747)
-    bus_location = (31.328148, -89.293578)
+    user_location = (31.325533, -89.338932)
+    bus_location = (31.325789, -89.373866
+
+)
     eta = calculate_bus_eta(user_location, bus_location, blue_route_converted_stops)
     print(f"Final ETA: {eta} minutes")
+
+

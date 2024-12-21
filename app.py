@@ -19,15 +19,10 @@ bus_to_track = "blue1"
 
 def fetch_bus_location():
     global current_location
-    # a post request to get which bus to track
-    # device_id = "07EF9193-D679-4B84-9005-9FA2D2D1D3B5"
     location = fetcher.get_bus_location(device_id[bus_state.current_bus])
-    # speed=
     if location:
         current_location = location
-
-        # print("Bus location debug:", current_location)
-        return current_location, bus_state.current_bus
+        return current_location, bus_state.current_bus #the bus_state.current_bus is only for testing purposes 
 
 @app.route('/track_bus', methods=['POST', 'GET'])
 def track_bus():
@@ -170,4 +165,5 @@ scheduler.start()
 if __name__ == "__main__":
     fetch_bus_location()  # Fetch initial bus location
     app.run(debug=True, host='0.0.0.0', port=5000)
+
 
