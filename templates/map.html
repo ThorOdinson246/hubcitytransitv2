@@ -141,11 +141,18 @@
       maxZoom: 19,
     }).addTo(map);
 
-    function getIcon() {
+    function getMeIcon() {
       return L.icon({
         iconUrl:
-          "https://freeiconshop.com/wp-content/uploads/edd/location-arrow-flat.png",
-        iconSize: [25, 25],
+          'me_icon',
+        iconSize: [30, 30],
+        popupAnchor: [-3, -76],
+      });
+    }
+    function getBusIcon() {
+      return L.icon({        
+        iconUrl: '/bus_icon',
+        iconSize: [30, 30],
         popupAnchor: [-3, -76],
       });
     }
@@ -158,7 +165,7 @@
       });
     }
 
-    var busMarker = L.marker([31.3271, -89.2903], { icon: getIcon() })
+    var busMarker = L.marker([31.3271, -89.2903], { icon: getBusIcon() })
       .bindTooltip("Bus")
       .addTo(map);
 
@@ -166,7 +173,7 @@
       function (position) {
         var userLat = position.coords.latitude;
         var userLng = position.coords.longitude;
-        userLocationMarker = L.marker([userLat, userLng], { icon: getIcon() })
+        userLocationMarker = L.marker([userLat, userLng], { icon: getMeIcon() })
           .bindTooltip("Me")
           .addTo(map);
       },

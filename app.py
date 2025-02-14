@@ -68,9 +68,13 @@ def index():
 def bus_location():
     return jsonify({'location': fetch_bus_location()[0], 'bus_id': fetch_bus_location()[1]})
 
-@app.route('/my_icon.png')
+@app.route('/bus_icon')
 def icon():
-    return app.send_static_file('my_icon.png')
+    return app.send_static_file('bus.webp')
+
+@app.route('/me_icon')
+def iconn():
+    return app.send_static_file('me_icon.png')
 
 @app.route('/routes')
 def get_routes():
