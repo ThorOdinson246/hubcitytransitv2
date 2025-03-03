@@ -2,7 +2,7 @@ from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
 import requests
 from utils.deviceIDs import device_id
-from apis import FEATURE_LAYER_URL
+from apis import FEATURE_LAYER_URL,MY_GMAPS_API
 class DeviceLocationFetcher:
     def __init__(self, feature_layer_url, username=None, password=None):
         
@@ -22,7 +22,7 @@ class DeviceLocationFetcher:
         else:
             return None
         
-GOOGLE_MAPS_API_KEY = "AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ"
+GOOGLE_MAPS_API_KEY = MY_GMAPS_API
 
 def find_nearest_transit_stop(user_lat, user_lng):
     places_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
@@ -33,11 +33,9 @@ def find_nearest_transit_stop(user_lat, user_lng):
         # 'type': 'bank',
         'key': GOOGLE_MAPS_API_KEY
     }
-    new_url='https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword=bus%20stop&location=31.325075%2C-89.339472&type=transit_station&radius=150&key=AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ'
 
     try:
         response = requests.get(places_url, params=places_params)
-        response = requests.get(new_url, params=None)
         response.raise_for_status()
         places_data = response.json()
 
@@ -231,7 +229,6 @@ if __name__ == "__main__":
 
 ################################################################################        
 # OLD IMPLEMENTATOIN WITHOUT ROUTE DETAILS IN MIND, JUST REGUKLAR DRIVING ETA
-# GOOGLE_MAPS_API_KEY = "AIzaSyBoID4hGG76qKDakJTT_eywoGSF1CIL3iQ"#MY GOOGLE MAPS API KEY
 
 # def get_user_eta(user_lat, user_lng, dest_lat, dest_lng):
     
