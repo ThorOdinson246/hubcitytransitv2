@@ -2,55 +2,65 @@ from arcgis.gis import GIS
 from arcgis.features import FeatureLayer
 import requests
 from utils.deviceIDs import device_id
-from apis import FEATURE_LAYER_URL,MY_GMAPS_API
+from apis import FEATURE_LAYER_URL, MY_GMAPS_API
+
+
 class DeviceLocationFetcher:
     def __init__(self, feature_layer_url, username=None, password=None):
-        
+
         self.gis = GIS(username=username, password=password)
         self.feature_layer = FeatureLayer(feature_layer_url)
 
     def get_bus_location(self, device_id):
-        
-        query_result = self.feature_layer.query(where=f"device_id='{device_id}'", out_fields="*")
-        
+
+        query_result = self.feature_layer.query(
+            where=f"device_id='{device_id}'", out_fields="*"
+        )
+
         if query_result.features:
             feature = query_result.features[0]
             geometry = feature.geometry
-            latitude = geometry['y']
-            longitude = geometry['x']
+            latitude = geometry["y"]
+            longitude = geometry["x"]
             return latitude, longitude
         else:
             return None
-        
+
+
 GOOGLE_MAPS_API_KEY = MY_GMAPS_API
+
 
 def find_nearest_transit_stop(user_lat, user_lng):
     places_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     places_params = {
-        'location': f'{user_lat},{user_lng}',
-        'radius': 150,  # Search within 1 km radius
-        'keyword': 'bus stop',
+        "location": f"{user_lat},{user_lng}",
+        "radius": 150,  # Search within 1 km radius
+        "keyword": "bus stop",
         # 'type': 'bank',
-        'key': GOOGLE_MAPS_API_KEY
+        "key": GOOGLE_MAPS_API_KEY,
     }
 
     try:
         response = requests.get(places_url, params=places_params)
         response.raise_for_status()
         places_data = response.json()
-
-        if places_data['status'] == 'OK' and places_data['results']:
-            nearest_stop = places_data['results'][0]
-            stop_location = nearest_stop['geometry']['location']
-            stop_name = nearest_stop['name']
-            print(f"Nearest transit stop: {stop_name} at ({stop_location['lat']}, {stop_location['lng']})")
-            return stop_location['lat'], stop_location['lng']
+        if places_data["status"] == "OK" and places_data["results"]:
+            nearest_stop = places_data["results"][0]
+            stop_location = nearest_stop["geometry"]["location"]
+            stop_name = nearest_stop["name"]
+            print(
+                f"Nearest transit stop: {stop_name} at ({stop_location['lat']}, {stop_location['lng']})"
+            )
+            return stop_location["lat"], stop_location["lng"]
         else:
-            print(f"No transit stops found near the user location: {places_data['status']}")
+            print(
+                f"No transit stops found near the user location: {places_data['status']}"
+            )
             return None, None
     except requests.exceptions.RequestException as e:
         print(f"Places request failed: {e}")
         return None, None
+
 
 def get_user_eta(user_lat, user_lng, bus_lat, bus_lng):
     nearest_stop_lat, nearest_stop_lng = find_nearest_transit_stop(user_lat, user_lng)
@@ -59,13 +69,13 @@ def get_user_eta(user_lat, user_lng, bus_lat, bus_lng):
 
     directions_url = "https://maps.googleapis.com/maps/api/directions/json"
     directions_params = {
-        'origin': f'{nearest_stop_lat},{nearest_stop_lng}',
-        'destination': f'{bus_lat},{bus_lng}',
-        'key': GOOGLE_MAPS_API_KEY,
-        'mode': 'driving',
-        'transit_mode': 'bus',
-        'departure_time': 'now',
-        'traffic_model': 'optimistic'
+        "origin": f"{nearest_stop_lat},{nearest_stop_lng}",
+        "destination": f"{bus_lat},{bus_lng}",
+        "key": GOOGLE_MAPS_API_KEY,
+        "mode": "driving",
+        "transit_mode": "bus",
+        "departure_time": "now",
+        "traffic_model": "optimistic",
     }
 
     try:
@@ -73,11 +83,13 @@ def get_user_eta(user_lat, user_lng, bus_lat, bus_lng):
         response.raise_for_status()
         directions_data = response.json()
 
-        if directions_data['status'] == 'OK':
-            leg = directions_data['routes'][0]['legs'][0]
-            distance = leg['distance']['text']
-            duration = leg['duration']['text']
-            print(f"Route from nearest stop to bus location: {leg['start_address']} to {leg['end_address']}")
+        if directions_data["status"] == "OK":
+            leg = directions_data["routes"][0]["legs"][0]
+            distance = leg["distance"]["text"]
+            duration = leg["duration"]["text"]
+            print(
+                f"Route from nearest stop to bus location: {leg['start_address']} to {leg['end_address']}"
+            )
             print(f"Distance: {distance}, ETA: {duration}")
             return distance, duration
         else:
@@ -93,8 +105,8 @@ if __name__ == "__main__":
 
     feature_layer_url = FEATURE_LAYER_URL
     fetcher = DeviceLocationFetcher(feature_layer_url)
-    
-    user_lat = 31.325075, 
+
+    user_lat = (31.325075,)
     user_lng = -89.339472
     bus_lat = fetcher.get_bus_location(device_id["blue2"])[0]
     bus_lng = fetcher.get_bus_location(device_id["blue2"])[1]
@@ -106,132 +118,11 @@ if __name__ == "__main__":
         print("Failed to get ETA")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-################################################################################        
+################################################################################
 # OLD IMPLEMENTATOIN WITHOUT ROUTE DETAILS IN MIND, JUST REGUKLAR DRIVING ETA
 
 # def get_user_eta(user_lat, user_lng, dest_lat, dest_lng):
-    
+
 #     url = f"https://maps.googleapis.com/maps/api/distancematrix/json?"
 
 #     params =  {
@@ -250,13 +141,10 @@ if __name__ == "__main__":
 #     if data['status'] == 'OK':
 #         element = data['rows'][0]['elements'][0]
 #         distance = element['distance']['text']
-#         duration = element.get('duration_in_traffic', element['duration'])['text'] 
+#         duration = element.get('duration_in_traffic', element['duration'])['text']
 #         print("Successful in getting eta") # Use traffic data if available
 #         return distance, duration
 #     else:
 #         return None, None
 # OLD IMPLEMENTATOIN WITHOUT ROUTE DETAILS IN MIND, JUST REGUKLAR DRIVING ETA
 #############################################################
-
-        
-    
