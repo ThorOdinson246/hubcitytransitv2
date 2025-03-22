@@ -1,6 +1,10 @@
 utils/getEta.py
 # utils/routesForFlask.py
 templates/notNecessary.html
+templates/map_backup.html
+templates/styles_backup.css
+templates/styles.css
+templates/script.js
 scripts/plotMapConvertCoordinate.py
 scripts/getDataFromARCGIS2.py
 routesAndStops/

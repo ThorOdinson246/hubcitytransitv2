@@ -1,0 +1,215 @@
+:root {
+    --body-color: #030e20;
+    --text-color: #e0e0e0;
+    --accent-color: #03dac6;
+    --accent-hover: #1eb534;
+    --coral-color: #cf6679;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+    background: var(--body-color);
+    color: var(--text-color);
+}
+
+/* Header */
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--body-color);
+    border-bottom: 2px solid var(--accent-color);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.app-title {
+    color: var(--accent-color);
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Map container */
+#map {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 60px;
+    z-index: 1;
+}
+
+/* Side panels for desktop */
+.side-panel {
+    position: absolute;
+    top: 80px;
+    background: rgba(3, 14, 32, 0.85);
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 15px;
+    width: 200px;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#routesPanel {
+    left: 20px;
+}
+
+#stopsPanel {
+    right: 20px;
+}
+
+.side-panel h3 {
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Button styles */
+.route-button, .stop-button {
+    background: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.route-button:hover, .stop-button:hover,
+.route-button.active, .stop-button.active {
+    background: var(--accent-color);
+    color: var(--body-color);
+}
+
+/* Bottom controls */
+.bottom-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--body-color);
+    border-top: 2px solid var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+#busSelect {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 5px;
+    padding: 8px 12px;
+    width: 150px;
+}
+
+#updateETABtn {
+    background: var(--coral-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+#eta-display {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 5px;
+    min-width: 120px;
+}
+
+/* Mobile toggle buttons (hidden on desktop) */
+.mobile-toggles {
+    display: none;
+}
+
+
+
+@media (max-width: 768px) {
+    .side-panel {
+        position: fixed; 
+        top: 70px;
+        width: 80%;
+        max-width: 250px;
+        /* height: calc(50% - 130px); */
+        overflow-y: auto;
+        transition: transform 0.3s ease;
+        z-index: 1000; 
+    }
+    
+    #routesPanel {
+        transform: translateX(-110%);
+        left: 0;
+        right: auto;
+        border-radius: 0 10px 10px 0;
+        border-left: none;
+    }
+    
+    #stopsPanel {
+        transform: translateX(110%);
+        right: 0;
+        left: auto;
+        border-radius: 10px 0 0 10px;
+        border-right: none;
+    }
+    
+    .side-panel.active {
+        transform: translateX(0) !important; 
+    }
+    
+    .mobile-toggles {
+        z-index: 1001;
+    }
+     /* Show toggle buttons  */
+    .mobile-toggles {
+        display: flex;
+        position: fixed;
+        top: 70px;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 10px;
+        z-index: 11;
+    }
+    
+    .panel-toggle {
+        width: 40px;
+        height: 40px;
+        background: var(--body-color);
+        border: 2px solid var(--accent-color);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--accent-color);
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+}
