@@ -1,8 +1,8 @@
 ﻿# HubCityTransit Bus Tracker v2
-
-### Note — *Updated January 26, 2026*
-
-It has come to my attention that the ArcGIS feature URL APIs previously used by this project are **no longer publicly accessible**. Because of this change, some parts of the application may **not function as expected**, live location data retrieval, and any components that rely on ArcGIS REST endpoints. The project may require updated data sources or authenticated endpoints to restore full functionality.
+ 
+>  **Note — Updated January 26, 2026**  
+> It has come to my attention that the ArcGIS feature URL APIs previously used by this project are **no longer publicly accessible**.  
+> As a result, some parts of the application may **not function as expected**, including map layers and live data retrieval. The project may require updated data sources or authenticated endpoints to restore full functionality.
 
 This project is a streamlined version of the existing [HubCityTransit map](https://hubcitytransit.com/map). The system uses the ArcGIS API to fetch bus locations and the Google Maps API to calculate ETAs. The frontend is built using Leaflet for map rendering and jQuery for AJAX requests while the backend is powered by Flask to handle API requests and data processing..
 
@@ -321,4 +321,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ---
+
 
