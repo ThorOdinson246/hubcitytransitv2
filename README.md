@@ -1,7 +1,7 @@
 ﻿# HubCityTransit Bus Tracker v2
 
 >  **Note — Updated February 23, 2026**  
-> The project has a new homepage and a new frontend techstack at [HubCityTransitV2](https://hubcityv2.mukeshpoudel.com.np). Please feel free to checkout the new updated look. 
+> The project has a new homepage and a new frontend techstack at [HubCityTransitV2](https://hubcitytransitv2.mukeshpoudel.com.np). Please feel free to checkout the new updated look. 
 
 >  **Note — Updated January 26, 2026**  
 > It has come to my attention that the ArcGIS feature URL APIs previously used by this project are **no longer publicly accessible**.  
@@ -326,6 +326,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ---
+
 
 
 
